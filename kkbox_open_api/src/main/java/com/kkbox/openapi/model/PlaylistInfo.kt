@@ -1,6 +1,8 @@
 package com.kkbox.openapi.model
 
-open class PlaylistInfo(
+import java.io.Serializable
+
+class PlaylistInfo(
         val id: String,
         val title: String,
         val description: String,
@@ -8,4 +10,4 @@ open class PlaylistInfo(
         val owner: Person,
         val covers: List<ImageInfo>,
         val webUrl: String
-)
+): Serializable
