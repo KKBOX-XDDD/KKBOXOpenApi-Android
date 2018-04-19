@@ -10,10 +10,11 @@ data class PagingEntity (
         @SerializedName("next") val next: String?
 ) {
     companion object {
-        fun parse(json: PagingEntity): Paging {
+        fun parse(currentItemCount:Int, paging: PagingEntity, summary:SummaryEntity): Paging {
+            val nextOffset = currentItemCount + paging.offset
             return Paging(
-                    json.next != null,
-                    json.offset.toString()
+                    paging.next != null,
+                    nextOffset
             )
         }
     }

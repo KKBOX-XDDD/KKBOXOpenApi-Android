@@ -28,7 +28,7 @@ class FeaturedCategoriesApi : OpenApiBase<FeaturedCategoriesApi.ApiResult>() {
                             }
                     )
                 },
-                PagingEntity.parse(json.paging)
+                PagingEntity.parse(json.data.size, json.paging, json.summary)
         )
     }
 

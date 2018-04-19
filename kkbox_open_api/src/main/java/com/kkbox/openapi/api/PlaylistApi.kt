@@ -1,5 +1,6 @@
 package com.kkbox.openapi.api
 
+import android.support.v4.util.ArrayMap
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.kkbox.openapi.api.entities.*
@@ -7,7 +8,21 @@ import com.kkbox.openapi.infrastructure.ApiSpec
 import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
 import com.kkbox.openapi.model.*
 
-class PlaylistApi(private val playlistId:String):OpenApiBase<PlaylistApi.ApiResult>() {
+class PlaylistApi(private val playlistId: String) : OpenApiBase<PlaylistApi.ApiResult>() {
+
+    override val url: String
+        get() = "$baseUrl/shared-playlists/$playlistId"
+    override val httpMethod: ApiSpec.HttpMethod
+        get() = ApiSpec.HttpMethod.GET
+    override val parameters: Map<String, String>
+        get() {
+            val parameters = ArrayMap<String, String>()
+            parameters.putAll(super.parameters)
+            if (offset != null) parameters["offset"] = offset.toString()
+            return parameters
+        }
+
+    private var offset: Int? = null
 
     override fun parse(result: ByteArray): ApiResult {
         val gson = Gson()
@@ -21,31 +36,31 @@ class PlaylistApi(private val playlistId:String):OpenApiBase<PlaylistApi.ApiResu
                         tracks,
                         tracksJson.tracks.summary.totalCount
                 ),
-                PagingEntity.parse(tracksJson.tracks.paging)
+                PagingEntity.parse(tracks.size, tracksJson.tracks.paging, tracksJson.tracks.summary)
         )
     }
 
-    override val url: String
-        get() = "$baseUrl/shared-playlists/$playlistId"
-    override val httpMethod: ApiSpec.HttpMethod
-        get() = ApiSpec.HttpMethod.GET
+    fun offset(offset: Int): PlaylistApi{
+        this.offset = offset
+        return this
+    }
 
-    class ApiResult (
-            val playlist:Playlist,
+    class ApiResult(
+            val playlist: Playlist,
             val paging: Paging
     )
 
-    private data class RootTrackEntity  (
-       @SerializedName("tracks") val tracks:TracksEntity
+    private data class RootTrackEntity(
+            @SerializedName("tracks") val tracks: TracksEntity
     )
 
-    data class TracksEntity (
-            @SerializedName("data") val data:List<TrackEntity>,
-            @SerializedName("paging") val paging:PagingEntity,
+    data class TracksEntity(
+            @SerializedName("data") val data: List<TrackEntity>,
+            @SerializedName("paging") val paging: PagingEntity,
             @SerializedName("summary") val summary: SummaryEntity
     )
 
-    data class TrackEntity (
+    data class TrackEntity(
             @SerializedName("id") val id: String,
             @SerializedName("name") val name: String,
             @SerializedName("duration") val duration: Long,
@@ -54,10 +69,10 @@ class PlaylistApi(private val playlistId:String):OpenApiBase<PlaylistApi.ApiResu
             @SerializedName("explicitness") val explicitness: Boolean,
             @SerializedName("available_territories") val availableTerritories: List<String>,
             @SerializedName("album") val album: AlbumEntity
-    ){
+    ) {
 
         companion object {
-            fun parse(json:List<TrackEntity>): List<Track> {
+            fun parse(json: List<TrackEntity>): List<Track> {
                 return json.map {
                     Track(
                             it.id,
@@ -71,7 +86,7 @@ class PlaylistApi(private val playlistId:String):OpenApiBase<PlaylistApi.ApiResu
                 }
             }
 
-            fun parseTerritory(territories:List<String>):List<Territory> {
+            fun parseTerritory(territories: List<String>): List<Territory> {
                 return territories.map {
                     when (it) {
                         "JP" -> Territory.JP
@@ -85,7 +100,7 @@ class PlaylistApi(private val playlistId:String):OpenApiBase<PlaylistApi.ApiResu
         }
     }
 
-    data class AlbumEntity (
+    data class AlbumEntity(
             @SerializedName("id") val id: String,
             @SerializedName("name") val name: String,
             @SerializedName("url") val url: String,
@@ -96,7 +111,7 @@ class PlaylistApi(private val playlistId:String):OpenApiBase<PlaylistApi.ApiResu
             @SerializedName("artist") val artist: PersonEntity
     ) {
         companion object {
-            fun parse(json:AlbumEntity): AlbumInfo {
+            fun parse(json: AlbumEntity): AlbumInfo {
                 return AlbumInfo(
                         json.id,
                         json.name,

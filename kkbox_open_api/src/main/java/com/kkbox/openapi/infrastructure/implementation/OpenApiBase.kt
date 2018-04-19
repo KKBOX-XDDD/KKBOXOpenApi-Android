@@ -3,6 +3,7 @@ package com.kkbox.openapi.infrastructure.implementation
 import android.support.v4.util.ArrayMap
 import com.kkbox.openapi.infrastructure.ApiSpec
 import com.kkbox.openapi.infrastructure.AsyncManager
+import com.kkbox.openapi.infrastructure.Crypto
 import com.kkbox.openapi.infrastructure.RequestExecutor
 import com.kkbox.openapi.model.Territory
 
@@ -17,6 +18,7 @@ abstract class OpenApiBase<out ResultType> : ApiSpec {
         var asyncManager: AsyncManager = AndroidAsyncManager()
         var accessToken: String = ""
         var territory: Territory = Territory.TW
+        var crypto: Crypto = AndroidCrypto()
     }
 
     protected val baseUrl: String get() { return "https://api.kkbox.com/${Version.V1_1.string}" }

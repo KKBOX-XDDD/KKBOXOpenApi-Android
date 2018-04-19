@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName
 import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
 import com.kkbox.openapi.api.entities.PlaylistInfoEntity
 import com.kkbox.openapi.api.entities.PagingEntity
+import com.kkbox.openapi.api.entities.SummaryEntity
 import com.kkbox.openapi.infrastructure.ApiSpec
 import com.kkbox.openapi.model.PlaylistInfo
 import com.kkbox.openapi.model.Paging
@@ -30,7 +31,7 @@ class FeaturedPlaylistApi: OpenApiBase<FeaturedPlaylistApi.ApiResult>() {
         val json = Gson().fromJson(String(result), RootEntity::class.java)
         return ApiResult(
                 json.data.map { PlaylistInfoEntity.parse(it) },
-                PagingEntity.parse(json.pagingInfo)
+                PagingEntity.parse(json.data.size, json.pagingInfo, json.summary)
         )
     }
 
@@ -57,10 +58,6 @@ class FeaturedPlaylistApi: OpenApiBase<FeaturedPlaylistApi.ApiResult>() {
             @SerializedName("data") val data:List<PlaylistInfoEntity>,
             @SerializedName("paging") val pagingInfo: PagingEntity,
             @SerializedName("summary") val summary: SummaryEntity
-    )
-
-    private data class SummaryEntity (
-            @SerializedName("total") val totalCount: Int
     )
 
 }

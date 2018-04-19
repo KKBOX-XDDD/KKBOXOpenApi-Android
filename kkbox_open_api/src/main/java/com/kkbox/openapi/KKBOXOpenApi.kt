@@ -36,6 +36,10 @@ class KKBOXOpenApi {
             FeaturedPlaylistApi().startRequest(failure, success)
         }
 
+        fun update(crypto: Crypto) {
+            OpenApiBase.crypto = crypto
+        }
+
     }
 
 

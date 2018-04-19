@@ -16,7 +16,7 @@ class ChartsApi:OpenApiBase<ChartsApi.ApiResult>() {
         val json = Gson().fromJson(String(result), RootEntity::class.java)
         return ApiResult(
                 json.data.map { PlaylistInfoEntity.parse(it) },
-                PagingEntity.parse(json.paging)
+                PagingEntity.parse(json.data.size, json.paging, json.summary)
         )
     }
 

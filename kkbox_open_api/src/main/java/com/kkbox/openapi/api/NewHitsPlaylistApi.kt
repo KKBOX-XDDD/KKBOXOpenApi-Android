@@ -3,12 +3,13 @@ package com.kkbox.openapi.api
 import android.support.v4.util.ArrayMap
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
-import com.kkbox.openapi.api.entities.PlaylistInfoEntity
 import com.kkbox.openapi.api.entities.PagingEntity
+import com.kkbox.openapi.api.entities.PlaylistInfoEntity
+import com.kkbox.openapi.api.entities.SummaryEntity
 import com.kkbox.openapi.infrastructure.ApiSpec
-import com.kkbox.openapi.model.PlaylistInfo
+import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
 import com.kkbox.openapi.model.Paging
+import com.kkbox.openapi.model.PlaylistInfo
 
 class NewHitsPlaylistApi : OpenApiBase<NewHitsPlaylistApi.ApiResult>() {
 
@@ -29,7 +30,7 @@ class NewHitsPlaylistApi : OpenApiBase<NewHitsPlaylistApi.ApiResult>() {
         val json = Gson().fromJson(String(result), NewHitsPlaylistApi.RootEntity::class.java)
         return NewHitsPlaylistApi.ApiResult(
                 json.data.map { PlaylistInfoEntity.parse(it) },
-                PagingEntity.parse(json.pagingInfo)
+                PagingEntity.parse(json.data.size, json.pagingInfo, json.summary)
         )
     }
 
@@ -51,13 +52,9 @@ class NewHitsPlaylistApi : OpenApiBase<NewHitsPlaylistApi.ApiResult>() {
             val paging: Paging
     )
 
-    private data class RootEntity (
-            @SerializedName("data") val data:List<PlaylistInfoEntity>,
+    private data class RootEntity(
+            @SerializedName("data") val data: List<PlaylistInfoEntity>,
             @SerializedName("paging") val pagingInfo: PagingEntity,
             @SerializedName("summary") val summary: SummaryEntity
-    )
-
-    private data class SummaryEntity (
-            @SerializedName("total") val totalCount: Int
     )
 }

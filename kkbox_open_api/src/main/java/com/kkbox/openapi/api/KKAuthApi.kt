@@ -1,13 +1,11 @@
 package com.kkbox.openapi.api
 
-import android.annotation.SuppressLint
 import android.support.v4.util.ArrayMap
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.kkbox.openapi.infrastructure.ApiSpec
 import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
 import java.nio.charset.Charset
-import java.util.*
 
 
 class KKAuthApi(
@@ -26,9 +24,8 @@ class KKAuthApi(
             return header
         }
 
-    @SuppressLint("NewApi")
     private fun base64(input:String):String {
-        return Base64.getEncoder().encodeToString(input.toByteArray())
+        return OpenApiBase.crypto.base64(input)
     }
 
     override fun parse(result: ByteArray): AuthResult {

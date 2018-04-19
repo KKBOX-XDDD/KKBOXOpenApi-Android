@@ -1,6 +1,7 @@
 package com.kkbox.openapi
 
 import com.kkbox.openapi.infrastructure.implementation.FakeAsyncManager
+import com.kkbox.openapi.infrastructure.implementation.Java8Crypto
 import com.kkbox.openapi.infrastructure.implementation.OkhttpRequestExecutor
 import okhttp3.OkHttpClient
 import org.junit.Before
@@ -21,6 +22,7 @@ open class ApiTestBase {
                     OkhttpRequestExecutor(OkHttpClient(), true),
                     FakeAsyncManager()
             )
+            KKBOXOpenApi.update(Java8Crypto())
 
             KKBOXOpenApi.fetchAuthToken({ throw AssertionError("Fetch token fail.") }) {
                 isGotToken = true
