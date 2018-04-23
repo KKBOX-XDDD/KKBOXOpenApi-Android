@@ -1,5 +1,7 @@
 package com.kkbox.openapi.model
 
+import java.io.Serializable
+
 class AlbumInfo(
         val id: String,
         val name: String,
@@ -9,4 +11,4 @@ class AlbumInfo(
         val releaseDate: String,
         val covers: List<ImageInfo>,
         val artist: Person
-)
+): Serializable

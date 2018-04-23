@@ -33,8 +33,7 @@ class PlaylistApi(private val playlistId: String) : OpenApiBase<PlaylistApi.ApiR
         return ApiResult(
                 Playlist(
                         PlaylistInfoEntity.parse(playlistJson),
-                        tracks,
-                        tracksJson.tracks.summary.totalCount
+                        tracks
                 ),
                 PagingEntity.parse(tracks.size, tracksJson.tracks.paging, tracksJson.tracks.summary)
         )
