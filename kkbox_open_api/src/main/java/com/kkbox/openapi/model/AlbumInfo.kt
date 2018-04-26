@@ -8,7 +8,7 @@ class AlbumInfo(
         val webUrl: String,
         val explicitness: Boolean,
         val availableTerritories: List<Territory>,
-        val releaseDate: String,
+        val releaseDate: String?,
         val covers: List<ImageInfo>,
         val artist: Person
 ): Serializable

@@ -105,7 +105,7 @@ class PlaylistApi(private val playlistId: String) : OpenApiBase<PlaylistApi.ApiR
             @SerializedName("url") val url: String,
             @SerializedName("explicitness") val explicitness: Boolean,
             @SerializedName("available_territories") val availableTerritories: List<String>,
-            @SerializedName("release_date") val release_date: String,
+            @SerializedName("release_date") val release_date: String?,
             @SerializedName("images") val images: List<ImageEntity>,
             @SerializedName("artist") val artist: PersonEntity
     ) {
