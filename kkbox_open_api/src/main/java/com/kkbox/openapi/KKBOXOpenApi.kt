@@ -6,6 +6,7 @@ import com.kkbox.openapi.api.KKAuthApi
 import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
 import com.kkbox.openapi.infrastructure.implementation.AndroidAsyncManager
 import com.kkbox.openapi.infrastructure.implementation.OkhttpRequestExecutor
+import com.kkbox.openapi.model.Territory
 import okhttp3.OkHttpClient
 
 class KKBOXOpenApi {
@@ -38,6 +39,10 @@ class KKBOXOpenApi {
 
         fun update(crypto: Crypto) {
             OpenApiBase.crypto = crypto
+        }
+
+        fun update(territory: Territory) {
+            OpenApiBase.territory = territory
         }
 
     }
