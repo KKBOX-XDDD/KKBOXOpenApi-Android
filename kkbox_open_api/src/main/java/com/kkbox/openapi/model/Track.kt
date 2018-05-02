@@ -9,6 +9,7 @@ class Track (
         val albumIndex: Int,
         val explicitness: Boolean,
         val availableTerritories: List<Territory>,
+        val webUrl: String,
         val album: AlbumInfo
 ): Serializable {
 

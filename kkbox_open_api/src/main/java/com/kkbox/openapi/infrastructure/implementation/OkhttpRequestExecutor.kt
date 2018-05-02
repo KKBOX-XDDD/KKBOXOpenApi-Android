@@ -10,9 +10,9 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 class OkhttpRequestExecutor(
-        private val httpClient:OkHttpClient,
+        private val httpClient: OkHttpClient,
         private val syncMode: Boolean = false
-): RequestExecutor {
+) : RequestExecutor {
 
     private val executor = Executors.newScheduledThreadPool(3)
 
@@ -25,8 +25,7 @@ class OkhttpRequestExecutor(
                 if (response.isSuccessful) {
                     val result = response.body()?.bytes() ?: ByteArray(0)
                     completeCallback(result)
-                }
-                else {
+                } else {
                     val error = Error(response.message())
                     failCallback(error)
                 }
@@ -38,17 +37,19 @@ class OkhttpRequestExecutor(
         }
         doAsync(executorService = executor) {
             try {
-                val response = httpClient.newBuilder()
+                val request = generateRequest(api, tag)
+                val call = httpClient.newBuilder()
                         .readTimeout(api.timeout, TimeUnit.MILLISECONDS)
-                        .build().newCall(generateRequest(api, tag)).execute()
+                        .build().newCall(request)
+                call.isExecuted
+                val response = call.execute()
 
                 if (response.isSuccessful) {
                     val result = response.body()?.bytes() ?: ByteArray(0)
                     uiThread {
                         completeCallback(result)
                     }
-                }
-                else {
+                } else {
                     val error = Error(response.message())
                     uiThread {
                         failCallback(error)

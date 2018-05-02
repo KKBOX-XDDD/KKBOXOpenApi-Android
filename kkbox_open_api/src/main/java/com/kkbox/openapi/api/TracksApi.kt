@@ -38,6 +38,7 @@ class TracksApi(private val playlistId: String, private var offset: Int? = null)
                         it.track_number,
                         it.explicitness,
                         it.availableTerritories.map { Territory.valueOf(it) },
+                        it.url,
                         PlaylistApi.AlbumEntity.parse(it.album)
                 ) },
                 PagingEntity.parse(rootEntity.data.size, rootEntity.paging, rootEntity.summary)

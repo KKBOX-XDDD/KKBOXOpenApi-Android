@@ -80,6 +80,7 @@ class PlaylistApi(private val playlistId: String) : OpenApiBase<PlaylistApi.ApiR
                             it.track_number,
                             it.explicitness,
                             parseTerritory(it.availableTerritories),
+                            it.url,
                             AlbumEntity.parse(it.album)
                     )
                 }
