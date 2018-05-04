@@ -51,7 +51,7 @@ abstract class OpenApiBase<out ResultType> : ApiSpec {
     @Throws(Exception::class)
     protected abstract fun parse(result: ByteArray): ResultType
 
-    open fun startRequest(failCallback: (Error) -> Unit, successCallback: (ResultType) -> Unit) {
+    open fun startRequest(failCallback: (Error) -> Unit = {}, successCallback: (ResultType) -> Unit) {
         if (requestExecutor == null) {
             throw RuntimeException("Request executor have to be initialized.")
         }
