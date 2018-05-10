@@ -27,7 +27,6 @@ class FeaturedPlaylistApi: OpenApiBase<FeaturedPlaylistApi.ApiResult>() {
     }
 
     override fun parse(result: ByteArray): ApiResult {
-
         val json = Gson().fromJson(String(result), RootEntity::class.java)
         return ApiResult(
                 json.data.map { PlaylistInfoEntity.parse(it) },

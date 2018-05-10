@@ -1,7 +1,9 @@
 package com.kkbox.openapi.model
 
-class CategoryInfo (
-        val id:String,
-        val title:String,
-        val covers:List<ImageInfo>
-)
+import java.io.Serializable
+
+class CategoryInfo(
+        val id: String,
+        val title: String,
+        val covers: List<ImageInfo>
+) : Serializable
