@@ -6,7 +6,7 @@ class PlaylistInfo(
         val id: String,
         val title: String,
         val description: String,
-        val updateDescription: String,
+        val updateTime: Long,
         val owner: Person,
         val covers: List<ImageInfo>,
         val webUrl: String
