@@ -25,6 +25,13 @@ class SearchPlaylistApi(private val keyWords: String?) : OpenApiBase<SearchPlayl
         )
     }
 
+    private var offset: Int? = null
+
+    fun offset(offset: Int): SearchPlaylistApi {
+        this.offset = offset
+        return this
+    }
+
     override val url: String
         get() = "$baseUrl/search"
     override val httpMethod: ApiSpec.HttpMethod
@@ -34,7 +41,10 @@ class SearchPlaylistApi(private val keyWords: String?) : OpenApiBase<SearchPlayl
             val parameters = ArrayMap<String, String>()
             parameters.putAll(super.parameters)
             if (keyWords != null) {
-                parameters["q"] = URLEncoder.encode(keyWords, "UTF-8")
+                parameters["q"] = keyWords
+            }
+            if (offset != null) {
+                parameters["offset"] = offset.toString()
             }
             parameters["type"] = "playlist"
             return parameters
