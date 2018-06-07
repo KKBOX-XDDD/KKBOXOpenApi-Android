@@ -79,9 +79,9 @@ class OkhttpRequestExecutor(
 
     private fun httpUrlWithParameters(api: ApiSpec): HttpUrl {
         val urlBuilder = httpUrl(api).newBuilder()
-        api.parameters.forEach({ key, value ->
+        api.parameters.forEach { (key, value) ->
             urlBuilder.addQueryParameter(key, value)
-        })
+        }
         return urlBuilder.build()
     }
 
@@ -91,7 +91,7 @@ class OkhttpRequestExecutor(
 
     private fun headers(api: ApiSpec): Headers {
         val headerBuilder = Headers.Builder()
-        api.headers.forEach { key, value ->
+        api.headers.forEach { (key, value) ->
             headerBuilder.add(key, value)
         }
         return headerBuilder.build()
