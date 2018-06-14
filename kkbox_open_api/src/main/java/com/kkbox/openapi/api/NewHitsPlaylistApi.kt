@@ -1,6 +1,5 @@
 package com.kkbox.openapi.api
 
-import android.support.v4.util.ArrayMap
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.kkbox.openapi.api.entities.PagingEntity
@@ -39,12 +38,9 @@ class NewHitsPlaylistApi : OpenApiBase<NewHitsPlaylistApi.ApiResult>() {
     override val httpMethod: ApiSpec.HttpMethod
         get() = ApiSpec.HttpMethod.GET
     override val parameters: Map<String, String>
-        get() {
-            val parameters = ArrayMap<String, String>()
-            parameters.putAll(super.parameters)
-            if (offset != null) parameters["offset"] = offset
-            if (limit != null) parameters["limit"] = limit.toString()
-            return parameters
+        get() = super.parameters.toMutableMap().apply {
+            if (offset != null) this["offset"] = offset!!
+            if (limit != null) this["limit"] = limit.toString()
         }
 
     class ApiResult(

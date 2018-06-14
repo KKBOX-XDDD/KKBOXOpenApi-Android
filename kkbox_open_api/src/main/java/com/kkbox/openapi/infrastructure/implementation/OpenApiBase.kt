@@ -21,31 +21,22 @@ abstract class OpenApiBase<out ResultType> : ApiSpec {
         var crypto: Crypto = AndroidCrypto()
     }
 
-    protected val baseUrl: String
-        get() {
-            return "https://api.kkbox.com/${Version.V1_1.string}"
-        }
+    protected val baseUrl: String get() = "https://api.kkbox.com/${Version.V1_1.string}"
     private var isLoading = false
     val isRequesting: Boolean
         get() = isLoading
 
     override val headers: Map<String, String>
-        get() {
-            val headers = ArrayMap<String, String>()
-            headers["authorization"] = "Bearer $accessToken"
-            headers["accept"] = ApiSpec.ContentType.JSON.string
-            return headers
+        get() = ArrayMap<String, String>().apply {
+            this["authorization"] = "Bearer $accessToken"
+            this["accept"] = ApiSpec.ContentType.JSON.string
         }
     override val parameters: Map<String, String>
-        get() {
-            val parameters = ArrayMap<String, String>()
-            parameters["territory"] = territory.name
-            return parameters
+        get() = ArrayMap<String, String>().apply {
+            this["territory"] = territory.name
         }
-    override val contentType: ApiSpec.ContentType
-        get() {
-            return ApiSpec.ContentType.JSON
-        }
+    override val contentType: ApiSpec.ContentType get() = ApiSpec.ContentType.JSON
+
     override val body: ByteArray get() = ByteArray(0)
 
     @Throws(Exception::class)

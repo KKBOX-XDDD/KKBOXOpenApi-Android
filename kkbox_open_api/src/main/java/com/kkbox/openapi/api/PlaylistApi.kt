@@ -1,6 +1,5 @@
 package com.kkbox.openapi.api
 
-import android.support.v4.util.ArrayMap
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.kkbox.openapi.api.entities.*
@@ -15,11 +14,8 @@ class PlaylistApi(private val playlistId: String) : OpenApiBase<PlaylistApi.ApiR
     override val httpMethod: ApiSpec.HttpMethod
         get() = ApiSpec.HttpMethod.GET
     override val parameters: Map<String, String>
-        get() {
-            val parameters = ArrayMap<String, String>()
-            parameters.putAll(super.parameters)
-            if (offset != null) parameters["offset"] = offset.toString()
-            return parameters
+        get() = super.parameters.toMutableMap().apply {
+            if (offset != null) this["offset"] = offset.toString()
         }
 
     private var offset: Int? = null
@@ -39,7 +35,7 @@ class PlaylistApi(private val playlistId: String) : OpenApiBase<PlaylistApi.ApiR
         )
     }
 
-    fun offset(offset: Int): PlaylistApi{
+    fun offset(offset: Int): PlaylistApi {
         this.offset = offset
         return this
     }

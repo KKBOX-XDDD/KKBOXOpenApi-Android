@@ -1,6 +1,5 @@
 package com.kkbox.openapi.api
 
-import android.support.v4.util.ArrayMap
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.kkbox.openapi.api.entities.PagingEntity
@@ -10,7 +9,6 @@ import com.kkbox.openapi.infrastructure.ApiSpec
 import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
 import com.kkbox.openapi.model.Paging
 import com.kkbox.openapi.model.PlaylistInfo
-import java.net.URLEncoder
 
 class SearchPlaylistApi(private val keyWords: String?) : OpenApiBase<SearchPlaylistApi.ApiResult>() {
 
@@ -37,17 +35,10 @@ class SearchPlaylistApi(private val keyWords: String?) : OpenApiBase<SearchPlayl
     override val httpMethod: ApiSpec.HttpMethod
         get() = ApiSpec.HttpMethod.GET
     override val parameters: Map<String, String>
-        get() {
-            val parameters = ArrayMap<String, String>()
-            parameters.putAll(super.parameters)
-            if (keyWords != null) {
-                parameters["q"] = keyWords
-            }
-            if (offset != null) {
-                parameters["offset"] = offset.toString()
-            }
-            parameters["type"] = "playlist"
-            return parameters
+        get() = super.parameters.toMutableMap().apply {
+            if (keyWords != null) this["q"] = keyWords
+            if (offset != null) this["offset"] = offset.toString()
+            this["type"] = "playlist"
         }
 
     class ApiResult(

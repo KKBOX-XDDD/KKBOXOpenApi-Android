@@ -1,6 +1,5 @@
 package com.kkbox.openapi.api
 
-import android.support.v4.util.ArrayMap
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.kkbox.openapi.api.entities.PagingEntity
@@ -18,29 +17,26 @@ class TracksApi(private val playlistId: String, private var offset: Int? = null)
     override val httpMethod: ApiSpec.HttpMethod
         get() = ApiSpec.HttpMethod.GET
     override val parameters: Map<String, String>
-        get() {
-            val parameters = ArrayMap<String, String>()
-            parameters.putAll(super.parameters)
-            if (offset != null) {
-                parameters["offset"] = offset.toString()
-            }
-            return parameters
+        get() = super.parameters.toMutableMap().apply {
+            if (offset != null) this["offset"] = offset.toString()
         }
 
     override fun parse(result: ByteArray): ApiResult {
         val jsonString = String(result)
-        val rootEntity:RootEntity = Gson().fromJson(jsonString, RootEntity::class.java)
+        val rootEntity: RootEntity = Gson().fromJson(jsonString, RootEntity::class.java)
         return ApiResult(
-                rootEntity.data.map { Track(
-                        it.id,
-                        it.name,
-                        it.duration,
-                        it.track_number,
-                        it.explicitness,
-                        it.availableTerritories.map { Territory.valueOf(it) },
-                        it.url,
-                        PlaylistApi.AlbumEntity.parse(it.album)
-                ) },
+                rootEntity.data.map {
+                    Track(
+                            it.id,
+                            it.name,
+                            it.duration,
+                            it.track_number,
+                            it.explicitness,
+                            it.availableTerritories.map { Territory.valueOf(it) },
+                            it.url,
+                            PlaylistApi.AlbumEntity.parse(it.album)
+                    )
+                },
                 PagingEntity.parse(rootEntity.data.size, rootEntity.paging, rootEntity.summary)
         )
     }

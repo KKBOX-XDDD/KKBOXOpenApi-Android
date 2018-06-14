@@ -24,13 +24,12 @@ class CategoryPlaylistsApi(private val categoryId: String) : OpenApiBase<Categor
     override val httpMethod: ApiSpec.HttpMethod
         get() = ApiSpec.HttpMethod.GET
     override val parameters: Map<String, String>
-        get() {
-            val parameters = super.parameters.toMutableMap()
+        get() = super.parameters.toMutableMap().apply {
             if (offset != null) {
-                parameters["offset"] = offset!!.toString()
+                this["offset"] = offset!!.toString()
             }
-            return parameters
         }
+
 
     override fun parse(result: ByteArray): CategoryPlaylistsApi.ApiResult {
         val json = Gson().fromJson(String(result), CategoryPlaylistsApi.RootEntity::class.java)

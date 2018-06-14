@@ -13,19 +13,21 @@ class KKBOXOpenApi {
 
     companion object {
 
-        private var clientId:String = ""
-        private var clientSecret:String = ""
+        private var clientId: String = ""
+        private var clientSecret: String = ""
 
-        private var authToken:String = ""
+        private var authToken: String = ""
 
-        fun install(clientId:String, clientSecret:String, executor: RequestExecutor = OkhttpRequestExecutor(OkHttpClient()), asyncManager: AsyncManager = AndroidAsyncManager()) {
+        val isInstalled get() = OpenApiBase.requestExecutor != null
+
+        fun install(clientId: String, clientSecret: String, executor: RequestExecutor = OkhttpRequestExecutor(OkHttpClient()), asyncManager: AsyncManager = AndroidAsyncManager()) {
             OpenApiBase.requestExecutor = executor
             OpenApiBase.asyncManager = asyncManager
             KKBOXOpenApi.clientId = clientId
             KKBOXOpenApi.clientSecret = clientSecret
         }
 
-        fun fetchAuthToken(failure:(Error)-> Unit = {}, success: ()->Unit = {} ) {
+        fun fetchAuthToken(failure: (Error) -> Unit = {}, success: () -> Unit = {}) {
             KKAuthApi(clientId, clientSecret).startRequest(failure) {
                 authToken = it.accessToken
                 OpenApiBase.accessToken = it.accessToken
@@ -33,7 +35,7 @@ class KKBOXOpenApi {
             }
         }
 
-        fun fetchFeaturedPlaylist(failure:(Error)-> Unit, success: (FeaturedPlaylistApi.ApiResult)->Unit) {
+        fun fetchFeaturedPlaylist(failure: (Error) -> Unit, success: (FeaturedPlaylistApi.ApiResult) -> Unit) {
             FeaturedPlaylistApi().startRequest(failure, success)
         }
 
