@@ -53,7 +53,7 @@ abstract class OpenApiBase<out ResultType> : ApiSpec {
     private fun requestCompleteHandler(failCallback: (Error) -> Unit, successCallback: (ResultType) -> Unit): (ByteArray) -> Unit {
         return {
             asyncManager.start(
-                    {
+                    background = {
                         var error: Error? = null
                         var result: ResultType? = null
                         try {
@@ -63,7 +63,7 @@ abstract class OpenApiBase<out ResultType> : ApiSpec {
                         }
                         return@start ParseResult(error, result)
                     },
-                    {
+                    uiThread = {
                         isLoading = false
                         if (it.error == null) {
                             if (it.apiResult != null) {
