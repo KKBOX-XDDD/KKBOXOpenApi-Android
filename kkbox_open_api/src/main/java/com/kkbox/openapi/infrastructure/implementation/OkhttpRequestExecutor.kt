@@ -26,7 +26,7 @@ class OkhttpRequestExecutor(
                     val result = response.body()?.bytes() ?: ByteArray(0)
                     completeCallback(result)
                 } else {
-                    val error = Error(response.message())
+                    val error = onResponseError(response)
                     failCallback(error)
                 }
             } catch (ioException: IOException) {
@@ -50,7 +50,7 @@ class OkhttpRequestExecutor(
                         completeCallback(result)
                     }
                 } else {
-                    val error = Error(response.message())
+                    val error = onResponseError(response)
                     uiThread {
                         failCallback(error)
                     }
@@ -64,6 +64,14 @@ class OkhttpRequestExecutor(
         }
     }
 
+    private fun onResponseError(response: Response): Error {
+        return when (response.code()) {
+            401 -> AuthError(response.message())
+            else -> Error(response.message())
+        }
+    }
+
+    class AuthError(message: String) : Error(message)
 
     private fun generateRequest(api: ApiSpec, tag: Any): Request {
         val builder = Request.Builder()
