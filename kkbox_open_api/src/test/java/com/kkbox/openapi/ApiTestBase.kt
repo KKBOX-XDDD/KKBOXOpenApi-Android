@@ -3,6 +3,7 @@ package com.kkbox.openapi
 import com.kkbox.openapi.infrastructure.implementation.FakeAsyncManager
 import com.kkbox.openapi.infrastructure.implementation.Java8Crypto
 import com.kkbox.openapi.infrastructure.implementation.OkhttpRequestExecutor
+import com.kkbox.openapi.tools.Logger
 import okhttp3.OkHttpClient
 import org.junit.Before
 
@@ -12,8 +13,10 @@ open class ApiTestBase {
         var isGotToken = false
     }
 
+    protected val log: Logger.LoggerSpec = Logger.UnitTestLogger()
+
     @Before
-    fun setup(){
+    fun setup() {
         if (!isGotToken) {
 
             KKBOXOpenApi.install(
@@ -30,5 +33,9 @@ open class ApiTestBase {
             }
 
         }
+    }
+
+    protected fun onApiError(e: Error?, message: String) {
+        throw AssertionError("$message: $e")
     }
 }

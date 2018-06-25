@@ -13,6 +13,9 @@ class SearchPlaylistApiTest : ApiTestBase() {
                 }, {
                     System.out.println(it.playlistInfoList)
                     System.out.println(it.paging)
+                    assert(it.playlistInfoList.isNotEmpty()) {
+                        "Where is 『KKTIX倒台大全集』??"
+                    }
                 })
     }
 

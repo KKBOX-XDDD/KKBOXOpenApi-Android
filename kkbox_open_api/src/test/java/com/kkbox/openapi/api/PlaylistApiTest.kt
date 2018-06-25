@@ -3,7 +3,7 @@ package com.kkbox.openapi.api
 import com.kkbox.openapi.ApiTestBase
 import org.junit.Test
 
-class PlaylistApiTest: ApiTestBase() {
+class PlaylistApiTest : ApiTestBase() {
 
     @Test
     fun testRequest_success() {
@@ -15,6 +15,9 @@ class PlaylistApiTest: ApiTestBase() {
                     System.out.println("Playlist: ${it.playlist.info.title}")
                     System.out.println("track size: ${it.playlist.tracks.size}")
                     System.out.println("Has next page? ${it.paging.hasNextPage}")
+                    assert(it.playlist.tracks.isNotEmpty()) {
+                        "Tracks may not be empty."
+                    }
                 }
     }
 

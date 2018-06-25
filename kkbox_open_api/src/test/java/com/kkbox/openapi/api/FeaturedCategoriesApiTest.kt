@@ -3,7 +3,7 @@ package com.kkbox.openapi.api
 import com.kkbox.openapi.ApiTestBase
 import org.junit.Test
 
-class FeaturedCategoriesApiTest:ApiTestBase() {
+class FeaturedCategoriesApiTest : ApiTestBase() {
 
     @Test
     fun testRequest_success() {
@@ -14,6 +14,9 @@ class FeaturedCategoriesApiTest:ApiTestBase() {
                 }) {
                     System.out.println("Featured Playlist Size: ${it.categoryList.size}")
                     System.out.println("Has next page? ${it.paging.hasNextPage}")
+                    assert(it.categoryList.isNotEmpty()) {
+                        "Category may not be empty."
+                    }
                 }
     }
 

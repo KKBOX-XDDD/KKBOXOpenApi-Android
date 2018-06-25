@@ -1,10 +1,9 @@
 package com.kkbox.openapi.api
 
 import com.kkbox.openapi.ApiTestBase
-import junit.framework.Assert
 import org.junit.Test
 
-class TracksApiTest: ApiTestBase() {
+class TracksApiTest : ApiTestBase() {
 
     @Test
     fun testRequest_success() {
@@ -14,10 +13,16 @@ class TracksApiTest: ApiTestBase() {
                     throw AssertionError("testRequest_success fail")
                 }) {
                     System.out.println("item count: ${it.tracks.size}")
-                    System.out.println("has next page: ${it.paging.hasNextPage}")
                     System.out.println("offset: ${it.paging.offset}")
-                    Assert.assertTrue(it.paging.hasNextPage)
-                    Assert.assertEquals(100, it.paging.offset)
+                    assert(it.tracks.isNotEmpty()) {
+                        "Tracks may not be empty."
+                    }
+                    assert(it.paging.hasNextPage) {
+                        "This playlist might have next page."
+                    }
+                    assert(100 == it.paging.offset) {
+                        "Offset may be 100"
+                    }
                 }
     }
 
@@ -31,7 +36,7 @@ class TracksApiTest: ApiTestBase() {
                     System.out.println("item count: ${it.tracks.size}")
                     System.out.println("has next page: ${it.paging.hasNextPage}")
                     System.out.println("offset: ${it.paging.offset}")
-                    Assert.assertFalse(it.paging.hasNextPage)
+                    assert(!it.paging.hasNextPage)
                 }
     }
 }
