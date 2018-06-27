@@ -12,8 +12,8 @@ class FeaturedCategoriesApiTest : ApiTestBase() {
                 .startRequest({
                     throw AssertionError("testRequest_success fail")
                 }) {
-                    System.out.println("Featured Playlist Size: ${it.categoryList.size}")
-                    System.out.println("Has next page? ${it.paging.hasNextPage}")
+                    log.print("Featured Playlist Size: ${it.categoryList.size}")
+                    log.print("Has next page? ${it.paging.hasNextPage}")
                     assert(it.categoryList.isNotEmpty()) {
                         "Category may not be empty."
                     }

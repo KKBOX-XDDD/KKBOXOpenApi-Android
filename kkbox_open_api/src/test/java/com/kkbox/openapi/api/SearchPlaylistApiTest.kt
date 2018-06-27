@@ -11,8 +11,8 @@ class SearchPlaylistApiTest : ApiTestBase() {
                 .startRequest({
                     throw AssertionError("testRequest_success fail")
                 }, {
-                    System.out.println(it.playlistInfoList)
-                    System.out.println(it.paging)
+                    log.print("Item count: ${it.playlistInfoList.size}")
+                    log.print("offset: ${it.paging.offset}")
                     assert(it.playlistInfoList.isNotEmpty()) {
                         "Where is 『KKTIX倒台大全集』??"
                     }

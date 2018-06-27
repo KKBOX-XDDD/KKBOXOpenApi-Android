@@ -23,6 +23,7 @@ class TracksApi(private val playlistId: String, private var offset: Int? = null)
 
     override fun parse(result: ByteArray): ApiResult {
         val jsonString = String(result)
+        System.out.println(jsonString)
         val rootEntity: RootEntity = Gson().fromJson(jsonString, RootEntity::class.java)
         return ApiResult(
                 rootEntity.data.map {

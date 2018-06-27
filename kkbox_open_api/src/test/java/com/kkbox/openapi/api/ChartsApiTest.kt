@@ -12,8 +12,8 @@ class ChartsApiTest : ApiTestBase() {
                 .startRequest({
                     throw AssertionError("testRequest_success fail")
                 }) {
-                    System.out.println("Featured Playlist Size: ${it.playlistList.size}")
-                    System.out.println("Has next page? ${it.paging.hasNextPage}")
+                    log.print("Featured Playlist Size: ${it.playlistList.size}")
+                    log.print("Has next page? ${it.paging.hasNextPage}")
                     assert(it.playlistList.isNotEmpty()) {
                         "Playlist may not be empty."
                     }

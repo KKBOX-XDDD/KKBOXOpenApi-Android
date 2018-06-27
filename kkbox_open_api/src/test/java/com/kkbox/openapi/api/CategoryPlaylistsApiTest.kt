@@ -12,8 +12,8 @@ class CategoryPlaylistsApiTest : ApiTestBase() {
                 .startRequest({
                     throw AssertionError("testRequest_success fail")
                 }) {
-                    System.out.println("Category Playlist Size: ${it.playlistList.size}")
-                    System.out.println("Has next page? ${it.paging.hasNextPage}")
+                    log.print("Category Playlist Size: ${it.playlistList.size}")
+                    log.print("Has next page? ${it.paging.hasNextPage}")
                     assert(it.playlistList.isNotEmpty()) {
                         "Playlist may not be empty."
                     }

@@ -12,8 +12,8 @@ class TracksApiTest : ApiTestBase() {
                 .startRequest({
                     throw AssertionError("testRequest_success fail")
                 }) {
-                    System.out.println("item count: ${it.tracks.size}")
-                    System.out.println("offset: ${it.paging.offset}")
+                    log.print("item count: ${it.tracks.size}")
+                    log.print("offset: ${it.paging.offset}")
                     assert(it.tracks.isNotEmpty()) {
                         "Tracks may not be empty."
                     }
@@ -33,9 +33,9 @@ class TracksApiTest : ApiTestBase() {
                 .startRequest({
                     throw AssertionError("testRequest_success fail")
                 }) {
-                    System.out.println("item count: ${it.tracks.size}")
-                    System.out.println("has next page: ${it.paging.hasNextPage}")
-                    System.out.println("offset: ${it.paging.offset}")
+                    log.print("item count: ${it.tracks.size}")
+                    log.print("has next page: ${it.paging.hasNextPage}")
+                    log.print("offset: ${it.paging.offset}")
                     assert(!it.paging.hasNextPage)
                 }
     }
