@@ -20,7 +20,8 @@ interface ApiSpec {
 
     enum class ContentType(val string: String) {
         JSON("application/json"),
-        FORM_URL_ENCODED("application/x-www-form-urlencoded")
+        FORM_URL_ENCODED("application/x-www-form-urlencoded"),
+        IMAGE_JPEG("image/jpeg")
     }
 
     enum class Priority {

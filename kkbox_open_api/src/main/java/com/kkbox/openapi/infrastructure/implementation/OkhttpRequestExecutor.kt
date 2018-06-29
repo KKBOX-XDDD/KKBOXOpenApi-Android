@@ -67,7 +67,7 @@ class OkhttpRequestExecutor(
     private fun onResponseError(response: Response): Error {
         return when (response.code()) {
             401 -> AuthError(response.message())
-            else -> Error(response.message())
+            else -> Error(response.toString())
         }
     }
 
