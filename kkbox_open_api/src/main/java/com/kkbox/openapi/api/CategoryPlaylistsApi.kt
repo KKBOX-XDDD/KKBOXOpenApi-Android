@@ -25,9 +25,7 @@ class CategoryPlaylistsApi(private val categoryId: String) : OpenApiBase<Categor
         get() = ApiSpec.HttpMethod.GET
     override val parameters: Map<String, String>
         get() = super.parameters.toMutableMap().apply {
-            if (offset != null) {
-                this["offset"] = offset!!.toString()
-            }
+            if (offset != null) this["offset"] = offset!!.toString()
         }
 
 

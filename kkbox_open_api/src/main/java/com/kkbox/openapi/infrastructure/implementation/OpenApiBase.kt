@@ -23,8 +23,7 @@ abstract class OpenApiBase<out ResultType> : ApiSpec {
 
     protected val baseUrl: String get() = "https://api.kkbox.com/${Version.V1_1.string}"
     private var isLoading = false
-    val isRequesting: Boolean
-        get() = isLoading
+    val isRequesting: Boolean get() = isLoading
 
     override val headers: Map<String, String>
         get() = ArrayMap<String, String>().apply {
@@ -51,28 +50,23 @@ abstract class OpenApiBase<out ResultType> : ApiSpec {
     }
 
     private fun requestCompleteHandler(failCallback: (Error) -> Unit, successCallback: (ResultType) -> Unit): (ByteArray) -> Unit {
-        return {
+        return { bytes ->
             asyncManager.start(
                     background = {
                         var error: Error? = null
                         var result: ResultType? = null
                         try {
-                            result = parse(it)
+                            result = parse(bytes)
                         } catch (e: Error) {
                             error = e
                         }
-                        return@start ParseResult(error, result)
+                        return@start ParsedResult(error, result)
                     },
                     uiThread = {
                         isLoading = false
-                        if (it.error == null) {
-                            if (it.apiResult != null) {
-                                successCallback(it.apiResult)
-                            } else {
-                                failCallback(Error("Server Error(Result Empty)"))
-                            }
-                        } else {
-                            failCallback(it.error)
+                        it.error?.let(failCallback) ?: run {
+                            it.apiResult?.let(successCallback)
+                                    ?: failCallback(Error("Server Error(Result Empty)"))
                         }
                     }
             )
@@ -83,5 +77,5 @@ abstract class OpenApiBase<out ResultType> : ApiSpec {
         return ArrayMap<String, String>(0)
     }
 
-    private class ParseResult<out ResultType>(val error: Error?, val apiResult: ResultType?)
+    private class ParsedResult<out ResultType>(val error: Error?, val apiResult: ResultType?)
 }
