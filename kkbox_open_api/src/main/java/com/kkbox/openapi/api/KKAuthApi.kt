@@ -1,6 +1,5 @@
 package com.kkbox.openapi.api
 
-import android.support.v4.util.ArrayMap
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.kkbox.openapi.infrastructure.ApiSpec
@@ -18,7 +17,7 @@ class KKAuthApi(
     override val body: ByteArray get() = "grant_type=client_credentials".toByteArray()
     override val contentType: ApiSpec.ContentType get() = ApiSpec.ContentType.FORM_URL_ENCODED
     override val headers: Map<String, String>
-        get() = ArrayMap<String, String>().apply {
+        get() = mutableMapOf<String, String>().apply {
             this["Authorization"] = "Basic ${base64("$clientId:$clientSecret")}"
         }
 

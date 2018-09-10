@@ -1,6 +1,5 @@
 package com.kkbox.openapi.infrastructure.implementation
 
-import android.support.v4.util.ArrayMap
 import com.kkbox.openapi.infrastructure.ApiSpec
 import com.kkbox.openapi.infrastructure.AsyncManager
 import com.kkbox.openapi.infrastructure.Crypto
@@ -26,12 +25,12 @@ abstract class OpenApiBase<out ResultType> : ApiSpec {
     val isRequesting: Boolean get() = isLoading
 
     override val headers: Map<String, String>
-        get() = ArrayMap<String, String>().apply {
+        get() = mutableMapOf<String, String>().apply {
             this["authorization"] = "Bearer $accessToken"
             this["accept"] = ApiSpec.ContentType.JSON.string
         }
     override val parameters: Map<String, String>
-        get() = ArrayMap<String, String>().apply {
+        get() = mutableMapOf<String, String>().apply {
             this["territory"] = territory.name
         }
     override val contentType: ApiSpec.ContentType get() = ApiSpec.ContentType.JSON
@@ -74,7 +73,7 @@ abstract class OpenApiBase<out ResultType> : ApiSpec {
     }
 
     private fun emptyMap(): Map<String, String> {
-        return ArrayMap<String, String>(0)
+        return mapOf()
     }
 
     private class ParsedResult<out ResultType>(val error: Error?, val apiResult: ResultType?)
