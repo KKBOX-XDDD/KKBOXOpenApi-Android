@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import com.google.gson.stream.JsonReader
 import com.kkbox.openapi.api.entities.PagingEntity
 import com.kkbox.openapi.api.entities.PlaylistInfoEntity
-import com.kkbox.openapi.infrastructure.ApiSpec
+import me.showang.respect.core.HttpMethod
 import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
 import com.kkbox.openapi.model.Paging
 import com.kkbox.openapi.model.PlaylistInfo
@@ -23,10 +23,9 @@ class UserSharedPlaylistApi(private val userId: String, private val offset: Int?
 
     override val url: String
         get() = "$baseUrl/users/$userId/shared-playlists"
-    override val httpMethod: ApiSpec.HttpMethod
-        get() = ApiSpec.HttpMethod.GET
-    override val parameters: Map<String, String>
-        get() = super.parameters.toMutableMap().apply {
+    override val httpMethod: HttpMethod
+        get() = HttpMethod.GET
+    override val urlQueries: Map<String, String>         get() = super.urlQueries.toMutableMap().apply {
             this["offset"] = offset.toString()
         }
 

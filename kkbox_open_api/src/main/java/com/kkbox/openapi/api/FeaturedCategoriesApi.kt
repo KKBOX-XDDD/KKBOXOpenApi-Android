@@ -5,16 +5,16 @@ import com.google.gson.annotations.SerializedName
 import com.kkbox.openapi.api.entities.ImageEntity
 import com.kkbox.openapi.api.entities.PagingEntity
 import com.kkbox.openapi.api.entities.SummaryEntity
-import com.kkbox.openapi.infrastructure.ApiSpec
 import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
 import com.kkbox.openapi.model.CategoryInfo
 import com.kkbox.openapi.model.ImageInfo
 import com.kkbox.openapi.model.Paging
+import me.showang.respect.core.HttpMethod
 
 class FeaturedCategoriesApi : OpenApiBase<FeaturedCategoriesApi.ApiResult>() {
 
-    override fun parse(result: ByteArray): ApiResult {
-        val json = Gson().fromJson(String(result), RootEntity::class.java)
+    override fun parse(bytes: ByteArray): ApiResult {
+        val json = Gson().fromJson(String(bytes), RootEntity::class.java)
         return ApiResult(
                 json.data.map {
                     CategoryInfo(
@@ -34,8 +34,8 @@ class FeaturedCategoriesApi : OpenApiBase<FeaturedCategoriesApi.ApiResult>() {
 
     override val url: String
         get() = "$baseUrl/featured-playlist-categories"
-    override val httpMethod: ApiSpec.HttpMethod
-        get() = ApiSpec.HttpMethod.GET
+    override val httpMethod: HttpMethod
+        get() = HttpMethod.GET
 
     class ApiResult(val categoryList: List<CategoryInfo>, val paging: Paging)
 

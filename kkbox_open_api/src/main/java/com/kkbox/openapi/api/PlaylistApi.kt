@@ -3,7 +3,7 @@ package com.kkbox.openapi.api
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.kkbox.openapi.api.entities.*
-import com.kkbox.openapi.infrastructure.ApiSpec
+import me.showang.respect.core.HttpMethod
 import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
 import com.kkbox.openapi.model.*
 
@@ -11,18 +11,17 @@ class PlaylistApi(private val playlistId: String) : OpenApiBase<PlaylistApi.ApiR
 
     override val url: String
         get() = "$baseUrl/shared-playlists/$playlistId"
-    override val httpMethod: ApiSpec.HttpMethod
-        get() = ApiSpec.HttpMethod.GET
-    override val parameters: Map<String, String>
-        get() = super.parameters.toMutableMap().apply {
+    override val httpMethod: HttpMethod
+        get() = HttpMethod.GET
+    override val urlQueries: Map<String, String>         get() = super.urlQueries.toMutableMap().apply {
             if (offset != null) this["offset"] = offset.toString()
         }
 
     private var offset: Int? = null
 
-    override fun parse(result: ByteArray): ApiResult {
+    override fun parse(bytes: ByteArray): ApiResult {
         val gson = Gson()
-        val json = String(result)
+        val json = String(bytes)
         val playlistJson = gson.fromJson(json, PlaylistInfoEntity::class.java)
         val tracksJson = gson.fromJson(json, RootTrackEntity::class.java)
         val tracks = TrackEntity.parse(tracksJson.tracks.data)

@@ -1,28 +1,27 @@
 package com.kkbox.openapi
 
 import com.kkbox.openapi.api.FeaturedPlaylistApi
-import com.kkbox.openapi.infrastructure.*
 import com.kkbox.openapi.api.KKAuthApi
+import com.kkbox.openapi.infrastructure.Crypto
 import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
-import com.kkbox.openapi.infrastructure.implementation.AndroidAsyncManager
-import com.kkbox.openapi.infrastructure.implementation.OkhttpRequestExecutor
 import com.kkbox.openapi.model.Territory
+import me.showang.respect.core.RequestExecutor
+import me.showang.respect.okhttp.OkhttpRequestExecutor
 import okhttp3.OkHttpClient
 
 class KKBOXOpenApi {
 
     companion object {
 
-        private var clientId: String = ""
-        private var clientSecret: String = ""
+        var clientId: String = ""
+        var clientSecret: String = ""
 
         private var authToken: String = ""
 
         val isInstalled get() = OpenApiBase.requestExecutor != null
 
-        fun install(clientId: String, clientSecret: String, executor: RequestExecutor = OkhttpRequestExecutor(OkHttpClient()), asyncManager: AsyncManager = AndroidAsyncManager()) {
+        fun install(clientId: String, clientSecret: String, executor: RequestExecutor = OkhttpRequestExecutor(OkHttpClient())) {
             OpenApiBase.requestExecutor = executor
-            OpenApiBase.asyncManager = asyncManager
             KKBOXOpenApi.clientId = clientId
             KKBOXOpenApi.clientSecret = clientSecret
         }

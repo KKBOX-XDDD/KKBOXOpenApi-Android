@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName
 import com.kkbox.openapi.api.entities.PagingEntity
 import com.kkbox.openapi.api.entities.PlaylistInfoEntity
 import com.kkbox.openapi.api.entities.SummaryEntity
-import com.kkbox.openapi.infrastructure.ApiSpec
 import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
 import com.kkbox.openapi.model.Paging
 import com.kkbox.openapi.model.PlaylistInfo
+import me.showang.respect.core.HttpMethod
 
 class FeaturedPlaylistApi : OpenApiBase<FeaturedPlaylistApi.ApiResult>() {
 
@@ -25,8 +25,8 @@ class FeaturedPlaylistApi : OpenApiBase<FeaturedPlaylistApi.ApiResult>() {
         return this
     }
 
-    override fun parse(result: ByteArray): ApiResult {
-        val json = Gson().fromJson(String(result), RootEntity::class.java)
+    override fun parse(bytes: ByteArray): ApiResult {
+        val json = Gson().fromJson(String(bytes), RootEntity::class.java)
         return ApiResult(
                 json.data.map { PlaylistInfoEntity.parse(it) },
                 PagingEntity.parse(json.data.size, json.pagingInfo, json.summary)
@@ -35,10 +35,10 @@ class FeaturedPlaylistApi : OpenApiBase<FeaturedPlaylistApi.ApiResult>() {
 
     override val url: String
         get() = "$baseUrl/featured-playlists"
-    override val httpMethod: ApiSpec.HttpMethod
-        get() = ApiSpec.HttpMethod.GET
-    override val parameters: Map<String, String>
-        get() = super.parameters.toMutableMap().apply {
+    override val httpMethod: HttpMethod
+        get() = HttpMethod.GET
+    override val urlQueries: Map<String, String>
+        get() = super.urlQueries.toMutableMap().apply {
             if (offset != null) this["offset"] = offset!!
             if (limit != null) this["limit"] = limit.toString()
         }

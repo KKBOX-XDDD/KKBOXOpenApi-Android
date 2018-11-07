@@ -2,13 +2,13 @@ package com.kkbox.openapi.api
 
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-import com.kkbox.openapi.api.entities.PlaylistInfoEntity
 import com.kkbox.openapi.api.entities.PagingEntity
+import com.kkbox.openapi.api.entities.PlaylistInfoEntity
 import com.kkbox.openapi.api.entities.SummaryEntity
-import com.kkbox.openapi.infrastructure.ApiSpec
 import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
-import com.kkbox.openapi.model.PlaylistInfo
 import com.kkbox.openapi.model.Paging
+import com.kkbox.openapi.model.PlaylistInfo
+import me.showang.respect.core.HttpMethod
 
 class ChartsApi:OpenApiBase<ChartsApi.ApiResult>() {
 
@@ -22,8 +22,8 @@ class ChartsApi:OpenApiBase<ChartsApi.ApiResult>() {
 
     override val url: String
         get() = "$baseUrl/charts"
-    override val httpMethod: ApiSpec.HttpMethod
-        get() = ApiSpec.HttpMethod.GET
+    override val httpMethod: HttpMethod
+        get() = HttpMethod.GET
 
     class ApiResult(
             val playlistList: List<PlaylistInfo>,

@@ -1,12 +1,19 @@
 package com.kkbox.openapi.infrastructure.implementation
 
-import com.kkbox.openapi.infrastructure.ApiSpec
-import com.kkbox.openapi.infrastructure.AsyncManager
+import com.kkbox.openapi.KKBOXOpenApi
+import com.kkbox.openapi.api.KKAuthApi
 import com.kkbox.openapi.infrastructure.Crypto
-import com.kkbox.openapi.infrastructure.RequestExecutor
 import com.kkbox.openapi.model.Territory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import me.showang.respect.RespectApi
+import me.showang.respect.core.ContentType
+import me.showang.respect.core.RequestExecutor
 
-abstract class OpenApiBase<out ResultType> : ApiSpec {
+abstract class OpenApiBase<ResultType> : RespectApi<ResultType>() {
 
     enum class Version(val string: String) {
         V1_1("v1.1"),
@@ -14,8 +21,7 @@ abstract class OpenApiBase<out ResultType> : ApiSpec {
 
     companion object {
         var requestExecutor: RequestExecutor? = null
-        var asyncManager: AsyncManager = AndroidAsyncManager()
-        var accessToken: String = ""
+        var accessToken: String? = null
         var territory: Territory = Territory.TW
         var crypto: Crypto = AndroidCrypto()
     }
@@ -27,54 +33,26 @@ abstract class OpenApiBase<out ResultType> : ApiSpec {
     override val headers: Map<String, String>
         get() = mutableMapOf<String, String>().apply {
             this["authorization"] = "Bearer $accessToken"
-            this["accept"] = ApiSpec.ContentType.JSON.string
+            this["accept"] = ContentType.JSON
         }
-    override val parameters: Map<String, String>
+
+    override val urlQueries: Map<String, String>
         get() = mutableMapOf<String, String>().apply {
             this["territory"] = territory.name
         }
-    override val contentType: ApiSpec.ContentType get() = ApiSpec.ContentType.JSON
+    override val contentType get() = ContentType.JSON
 
     override val body: ByteArray get() = ByteArray(0)
 
-    @Throws(Exception::class)
-    protected abstract fun parse(result: ByteArray): ResultType
-
     open fun startRequest(failCallback: (Error) -> Unit = {}, successCallback: (ResultType) -> Unit) {
-        if (requestExecutor == null) {
-            throw RuntimeException("Request executor have to be initialized.")
-        }
-        isLoading = true
-        requestExecutor?.request(this, failCallback, requestCompleteHandler(failCallback, successCallback))
-    }
-
-    private fun requestCompleteHandler(failCallback: (Error) -> Unit, successCallback: (ResultType) -> Unit): (ByteArray) -> Unit {
-        return { bytes ->
-            asyncManager.start(
-                    background = {
-                        var error: Error? = null
-                        var result: ResultType? = null
-                        try {
-                            result = parse(bytes)
-                        } catch (e: Error) {
-                            error = e
-                        }
-                        return@start ParsedResult(error, result)
-                    },
-                    uiThread = {
-                        isLoading = false
-                        it.error?.let(failCallback) ?: run {
-                            it.apiResult?.let(successCallback)
-                                    ?: failCallback(Error("Server Error(Result Empty)"))
-                        }
-                    }
-            )
+        val requestExecutor = requestExecutor
+                ?: throw RuntimeException("Request executor have to be initialized.")
+        CoroutineScope(IO).launch {
+            if (accessToken == null) {
+                accessToken = KKAuthApi(KKBOXOpenApi.clientId, KKBOXOpenApi.clientSecret).suspend(requestExecutor).accessToken
+            }
+            start(requestExecutor, failHandler = failCallback, successHandler = successCallback)
         }
     }
 
-    private fun emptyMap(): Map<String, String> {
-        return mapOf()
-    }
-
-    private class ParsedResult<out ResultType>(val error: Error?, val apiResult: ResultType?)
 }

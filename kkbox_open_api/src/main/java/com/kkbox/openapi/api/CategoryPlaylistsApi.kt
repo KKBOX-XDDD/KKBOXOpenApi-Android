@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import com.kkbox.openapi.api.entities.PagingEntity
 import com.kkbox.openapi.api.entities.PlaylistInfoEntity
 import com.kkbox.openapi.api.entities.SummaryEntity
-import com.kkbox.openapi.infrastructure.ApiSpec
+import me.showang.respect.core.HttpMethod
 import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
 import com.kkbox.openapi.model.Paging
 import com.kkbox.openapi.model.PlaylistInfo
@@ -21,10 +21,9 @@ class CategoryPlaylistsApi(private val categoryId: String) : OpenApiBase<Categor
 
     override val url: String
         get() = "$baseUrl/featured-playlist-categories/$categoryId/playlists"
-    override val httpMethod: ApiSpec.HttpMethod
-        get() = ApiSpec.HttpMethod.GET
-    override val parameters: Map<String, String>
-        get() = super.parameters.toMutableMap().apply {
+    override val httpMethod: HttpMethod
+        get() = HttpMethod.GET
+    override val urlQueries: Map<String, String>         get() = super.urlQueries.toMutableMap().apply {
             if (offset != null) this["offset"] = offset!!.toString()
         }
 
