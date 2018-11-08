@@ -1,1 +1,2 @@
-include ':kkbox_open_api'
+include ':kkbox_open_api', ':core'
+project(':core').projectDir = new File('core/models')
