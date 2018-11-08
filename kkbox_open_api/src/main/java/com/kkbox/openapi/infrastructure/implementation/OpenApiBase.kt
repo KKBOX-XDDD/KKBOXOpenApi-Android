@@ -7,11 +7,10 @@ import com.kkbox.openapi.model.Territory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import me.showang.respect.RespectApi
 import me.showang.respect.core.ContentType
-import me.showang.respect.core.RequestExecutor
+import me.showang.respect.start
+import me.showang.respect.suspend
 
 abstract class OpenApiBase<ResultType> : RespectApi<ResultType>() {
 
@@ -20,7 +19,6 @@ abstract class OpenApiBase<ResultType> : RespectApi<ResultType>() {
     }
 
     companion object {
-        var requestExecutor: RequestExecutor? = null
         var accessToken: String? = null
         var territory: Territory = Territory.TW
         var crypto: Crypto = AndroidCrypto()
@@ -45,13 +43,11 @@ abstract class OpenApiBase<ResultType> : RespectApi<ResultType>() {
     override val body: ByteArray get() = ByteArray(0)
 
     open fun startRequest(failCallback: (Error) -> Unit = {}, successCallback: (ResultType) -> Unit) {
-        val requestExecutor = requestExecutor
-                ?: throw RuntimeException("Request executor have to be initialized.")
         CoroutineScope(IO).launch {
             if (accessToken == null) {
-                accessToken = KKAuthApi(KKBOXOpenApi.clientId, KKBOXOpenApi.clientSecret).suspend(requestExecutor).accessToken
+                accessToken = KKAuthApi(KKBOXOpenApi.clientId, KKBOXOpenApi.clientSecret).suspend().accessToken
             }
-            start(requestExecutor, failHandler = failCallback, successHandler = successCallback)
+            start(failHandler = failCallback, successHandler = successCallback)
         }
     }
 

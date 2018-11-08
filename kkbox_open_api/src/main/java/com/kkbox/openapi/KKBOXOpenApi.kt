@@ -5,6 +5,7 @@ import com.kkbox.openapi.api.KKAuthApi
 import com.kkbox.openapi.infrastructure.Crypto
 import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
 import com.kkbox.openapi.model.Territory
+import me.showang.respect.Respect
 import me.showang.respect.core.RequestExecutor
 import me.showang.respect.okhttp.OkhttpRequestExecutor
 import okhttp3.OkHttpClient
@@ -18,10 +19,10 @@ class KKBOXOpenApi {
 
         private var authToken: String = ""
 
-        val isInstalled get() = OpenApiBase.requestExecutor != null
+        val isInstalled get() = clientId.isNotEmpty() && clientSecret.isNotEmpty()
 
-        fun install(clientId: String, clientSecret: String, executor: RequestExecutor = OkhttpRequestExecutor(OkHttpClient())) {
-            OpenApiBase.requestExecutor = executor
+        fun install(clientId: String, clientSecret: String, executor: RequestExecutor? = null) {
+            Respect.requestExecutor = executor
             KKBOXOpenApi.clientId = clientId
             KKBOXOpenApi.clientSecret = clientSecret
         }
