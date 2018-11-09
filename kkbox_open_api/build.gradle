@@ -10,6 +10,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28
+        versionCode 101001
+        versionName "v1.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
@@ -30,7 +32,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 //    implementation project(':core')
 
-    api "com.github.KKBOX-XDDD:KKBOXOpenApi-Core:master-SNAPSHOT"
+    api "com.github.KKBOX-XDDD:KKBOXOpenApi-Core:0.0.1"
     api 'com.github.showang:Respect:0.2.2'
     implementation 'com.google.code.gson:gson:2.8.5'
 
