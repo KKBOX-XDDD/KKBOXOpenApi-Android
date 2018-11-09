@@ -28,8 +28,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':core')
+//    implementation project(':core')
 
+    api "com.github.KKBOX-XDDD:KKBOXOpenApi-Core:master-SNAPSHOT"
     api 'com.github.showang:Respect:0.2.2'
     implementation 'com.google.code.gson:gson:2.8.5'
 
