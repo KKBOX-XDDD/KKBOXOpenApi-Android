@@ -12,13 +12,13 @@ import com.kkbox.openapi.model.Track
 
 class TracksApi(private val playlistId: String, private var offset: Int? = null) : OpenApiBase<TracksApi.ApiResult>() {
 
-    override val url: String
-        get() = "${super.baseUrl}/shared-playlists/$playlistId/tracks"
-    override val httpMethod: HttpMethod
-        get() = HttpMethod.GET
-    override val urlQueries: Map<String, String>         get() = super.urlQueries.toMutableMap().apply {
-            if (offset != null) this["offset"] = offset.toString()
+    override val httpMethod = HttpMethod.GET
+    override val url: String by lazy { "${super.baseUrl}/shared-playlists/$playlistId/tracks" }
+    override val urlQueries: Map<String, String> by lazy {
+        super.urlQueries.toMutableMap().apply {
+            offset?.let { set("offset", it.toString()) }
         }
+    }
 
     override fun parse(bytes: ByteArray): ApiResult {
         val jsonString = String(bytes)

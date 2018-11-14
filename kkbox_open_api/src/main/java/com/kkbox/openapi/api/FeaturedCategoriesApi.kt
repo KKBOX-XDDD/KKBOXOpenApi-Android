@@ -32,10 +32,8 @@ class FeaturedCategoriesApi : OpenApiBase<FeaturedCategoriesApi.ApiResult>() {
         )
     }
 
-    override val url: String
-        get() = "$baseUrl/featured-playlist-categories"
-    override val httpMethod: HttpMethod
-        get() = HttpMethod.GET
+    override val url: String by lazy { "$baseUrl/featured-playlist-categories" }
+    override val httpMethod: HttpMethod = HttpMethod.GET
 
     class ApiResult(val categoryList: List<CategoryInfo>, val paging: Paging)
 

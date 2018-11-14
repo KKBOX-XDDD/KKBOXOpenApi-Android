@@ -8,6 +8,7 @@ import com.kkbox.openapi.model.Territory
 import me.showang.respect.Respect
 import me.showang.respect.core.RequestExecutor
 import me.showang.respect.okhttp.OkhttpRequestExecutor
+import me.showang.respect.suspend
 import okhttp3.OkHttpClient
 
 class KKBOXOpenApi {
@@ -27,11 +28,14 @@ class KKBOXOpenApi {
             KKBOXOpenApi.clientSecret = clientSecret
         }
 
-        fun fetchAuthToken(failure: (Error) -> Unit = {}, success: () -> Unit = {}) {
-            KKAuthApi(clientId, clientSecret).startRequest(failure) {
-                authToken = it.accessToken
-                OpenApiBase.accessToken = it.accessToken
+        suspend fun fetchAuthToken(failure: (Error) -> Unit = {}, success: () -> Unit = {}) {
+            try {
+                val authResult = KKAuthApi(clientId, clientSecret).suspend()
+                authToken = authResult.accessToken
+                OpenApiBase.accessToken = authResult.accessToken
                 success()
+            } catch (e: Error) {
+                failure(e)
             }
         }
 

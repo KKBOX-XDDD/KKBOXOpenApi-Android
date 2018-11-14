@@ -14,7 +14,7 @@ import me.showang.respect.suspend
 
 abstract class OpenApiBase<ResultType> : RespectApi<ResultType>() {
 
-    enum class Version(val string: String) {
+    enum class Version(val value: String) {
         V1_1("v1.1"),
     }
 
@@ -24,10 +24,9 @@ abstract class OpenApiBase<ResultType> : RespectApi<ResultType>() {
         var crypto: Crypto = AndroidCrypto()
     }
 
-    protected val baseUrl: String get() = "https://api.kkbox.com/${Version.V1_1.string}"
-    private var isLoading = false
     val isRequesting: Boolean get() = isLoading
-
+    private var isLoading = false
+    protected val baseUrl: String by lazy { "https://api.kkbox.com/${Version.V1_1.value}" }
     override val headers: Map<String, String>
         get() = mutableMapOf<String, String>().apply {
             this["authorization"] = "Bearer $accessToken"
@@ -35,9 +34,8 @@ abstract class OpenApiBase<ResultType> : RespectApi<ResultType>() {
         }
 
     override val urlQueries: Map<String, String>
-        get() = mutableMapOf<String, String>().apply {
-            this["territory"] = territory.name
-        }
+        get() = mutableMapOf("territory" to territory.name)
+
     override val contentType get() = ContentType.JSON
 
     override val body: ByteArray get() = ByteArray(0)

@@ -12,8 +12,8 @@ import me.showang.respect.core.HttpMethod
 
 class ChartsApi:OpenApiBase<ChartsApi.ApiResult>() {
 
-    override fun parse(result: ByteArray): ApiResult {
-        val json = Gson().fromJson(String(result), RootEntity::class.java)
+    override fun parse(bytes: ByteArray): ApiResult {
+        val json = Gson().fromJson(String(bytes), RootEntity::class.java)
         return ApiResult(
                 json.data.map { PlaylistInfoEntity.parse(it) },
                 PagingEntity.parse(json.data.size, json.paging, json.summary)
