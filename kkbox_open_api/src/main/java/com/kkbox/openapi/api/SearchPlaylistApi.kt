@@ -13,8 +13,8 @@ import com.kkbox.openapi.model.PlaylistInfo
 class SearchPlaylistApi(private val keyWords: String?) : OpenApiBase<SearchPlaylistApi.ApiResult>() {
 
 
-    override fun parse(result: ByteArray): ApiResult {
-        val json = Gson().fromJson(String(result), RootEntity::class.java)
+    override fun parse(bytes: ByteArray): ApiResult {
+        val json = Gson().fromJson(String(bytes), RootEntity::class.java)
         return ApiResult(
                 json.playlists.playlistInfoList.map {
                     PlaylistInfoEntity.parse(it)

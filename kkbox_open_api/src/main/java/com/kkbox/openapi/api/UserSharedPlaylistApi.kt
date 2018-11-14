@@ -12,23 +12,22 @@ import com.kkbox.openapi.model.PlaylistInfo
 import java.io.ByteArrayInputStream
 import java.io.InputStreamReader
 
-class UserSharedPlaylistApi(private val userId: String, private val offset: Int? = 0) : OpenApiBase<UserSharedPlaylistApi.ApiResult>() {
-    override fun parse(result: ByteArray): ApiResult {
-        val jsonEntity: RootEntity = Gson().fromJson(JsonReader(InputStreamReader(ByteArrayInputStream(result))), RootEntity::class.java)
+class UserSharedPlaylistApi(userId: String, private val offset: Int? = 0) : OpenApiBase<UserSharedPlaylistApi.ApiResult>() {
+    override fun parse(bytes: ByteArray): ApiResult {
+        val jsonEntity: RootEntity = Gson().fromJson(JsonReader(InputStreamReader(ByteArrayInputStream(bytes))), RootEntity::class.java)
         return ApiResult(
                 jsonEntity.data.map { PlaylistInfoEntity.parse(it) },
                 PagingEntity.parse(jsonEntity.data.size, jsonEntity.paging)
         )
     }
 
-    override val url: String
-        get() = "$baseUrl/users/$userId/shared-playlists"
-    override val httpMethod: HttpMethod
-        get() = HttpMethod.GET
-    override val urlQueries: Map<String, String>         get() = super.urlQueries.toMutableMap().apply {
+    override val httpMethod = HttpMethod.GET
+    override val url: String by lazy { "$baseUrl/users/$userId/shared-playlists" }
+    override val urlQueries: Map<String, String> by lazy {
+        super.urlQueries.toMutableMap().apply {
             this["offset"] = offset.toString()
         }
-
+    }
 
     private data class RootEntity(
             @SerializedName("data") val data: List<PlaylistInfoEntity>,

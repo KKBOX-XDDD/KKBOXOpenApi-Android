@@ -25,8 +25,8 @@ class NewHitsPlaylistApi : OpenApiBase<NewHitsPlaylistApi.ApiResult>() {
         return this
     }
 
-    override fun parse(result: ByteArray): ApiResult {
-        val json = Gson().fromJson(String(result), NewHitsPlaylistApi.RootEntity::class.java)
+    override fun parse(bytes: ByteArray): ApiResult {
+        val json = Gson().fromJson(String(bytes), NewHitsPlaylistApi.RootEntity::class.java)
         return NewHitsPlaylistApi.ApiResult(
                 json.data.map { PlaylistInfoEntity.parse(it) },
                 PagingEntity.parse(json.data.size, json.pagingInfo, json.summary)

@@ -28,8 +28,8 @@ class CategoryPlaylistsApi(private val categoryId: String) : OpenApiBase<Categor
         }
 
 
-    override fun parse(result: ByteArray): CategoryPlaylistsApi.ApiResult {
-        val json = Gson().fromJson(String(result), CategoryPlaylistsApi.RootEntity::class.java)
+    override fun parse(bytes: ByteArray): CategoryPlaylistsApi.ApiResult {
+        val json = Gson().fromJson(String(bytes), CategoryPlaylistsApi.RootEntity::class.java)
         return CategoryPlaylistsApi.ApiResult(
                 json.data.map { PlaylistInfoEntity.parse(it) },
                 PagingEntity.parse(json.data.size, json.pagingInfo, json.summary)

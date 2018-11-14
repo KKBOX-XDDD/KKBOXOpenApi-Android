@@ -1,6 +1,8 @@
 package com.kkbox.openapi.api
 
 import com.kkbox.openapi.ApiTestBase
+import kotlinx.coroutines.runBlocking
+import me.showang.respect.start
 import org.junit.Test
 
 class ChartsApiTest : ApiTestBase() {
@@ -8,16 +10,17 @@ class ChartsApiTest : ApiTestBase() {
     @Test
     fun testRequest_success() {
         System.out.println("\n${this.javaClass.simpleName} testRequest_success")
-        ChartsApi()
-                .startRequest({
-                    throw AssertionError("testRequest_success fail")
-                }) {
-                    log.print("Featured Playlist Size: ${it.playlistList.size}")
-                    log.print("Has next page? ${it.paging.hasNextPage}")
-                    assert(it.playlistList.isNotEmpty()) {
-                        "Playlist may not be empty."
-                    }
+        runBlocking {
+            ChartsApi().start(this, {
+                throw AssertionError("testRequest_success fail")
+            }) {
+                log.print("Featured Playlist Size: ${it.playlistList.size}")
+                log.print("Has next page? ${it.paging.hasNextPage}")
+                assert(it.playlistList.isNotEmpty()) {
+                    "Playlist may not be empty."
                 }
+            }
+        }
     }
 
 }
