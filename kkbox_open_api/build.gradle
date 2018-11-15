@@ -31,7 +31,7 @@ dependencies {
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    api "com.github.KKBOX-XDDD:KKBOXOpenApi-Core:master-SNAPSHOT"
+    api 'com.github.KKBOX-XDDD:KKBOXOpenApi-Core:0.0.1'
     api 'com.github.showang:Respect:0.2.4'
     implementation 'com.google.code.gson:gson:2.8.5'
 
