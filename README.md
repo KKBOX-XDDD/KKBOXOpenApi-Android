@@ -14,5 +14,5 @@ Add it in your root build.gradle at the end of repositories:
 ## Step 2. Add the dependency
 
 	dependencies {
-	        implementation 'com.github.KKBOX-XDDD:KKBOXOpenApi-Android:v1.0.0'
+	        implementation 'com.github.KKBOX-XDDD:KKBOXOpenApi-Android:${last_jitpack_version}'
 	}
