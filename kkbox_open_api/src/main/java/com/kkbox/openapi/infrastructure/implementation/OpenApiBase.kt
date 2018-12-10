@@ -6,7 +6,9 @@ import com.kkbox.openapi.infrastructure.Crypto
 import com.kkbox.openapi.model.Territory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.showang.respect.RespectApi
 import me.showang.respect.core.ContentType
 import me.showang.respect.start
@@ -43,7 +45,13 @@ abstract class OpenApiBase<ResultType> : RespectApi<ResultType>() {
     open fun startRequest(failCallback: (Error) -> Unit = {}, successCallback: (ResultType) -> Unit) {
         CoroutineScope(IO).launch {
             if (accessToken == null) {
-                accessToken = KKAuthApi(KKBOXOpenApi.clientId, KKBOXOpenApi.clientSecret).suspend().accessToken
+                try {
+                    accessToken = KKAuthApi(KKBOXOpenApi.clientId, KKBOXOpenApi.clientSecret).suspend().accessToken
+                } catch (e: Throwable) {
+                    withContext(Main) {
+                        failCallback(Error("Fetch token error."))
+                    }
+                }
             }
             start(failHandler = failCallback, successHandler = successCallback)
         }
