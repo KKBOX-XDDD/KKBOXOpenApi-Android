@@ -7,9 +7,7 @@ import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
 import com.kkbox.openapi.model.Territory
 import me.showang.respect.Respect
 import me.showang.respect.core.RequestExecutor
-import me.showang.respect.okhttp.OkhttpRequestExecutor
 import me.showang.respect.suspend
-import okhttp3.OkHttpClient
 
 class KKBOXOpenApi {
 
@@ -39,7 +37,7 @@ class KKBOXOpenApi {
             }
         }
 
-        fun fetchFeaturedPlaylist(failure: (Error) -> Unit, success: (FeaturedPlaylistApi.ApiResult) -> Unit) {
+        fun fetchFeaturedPlaylist(failure: (Throwable) -> Unit, success: (FeaturedPlaylistApi.ApiResult) -> Unit) {
             FeaturedPlaylistApi().startRequest(failure, success)
         }
 

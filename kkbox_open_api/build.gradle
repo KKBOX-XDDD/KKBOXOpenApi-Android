@@ -10,9 +10,9 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 101005
-        versionName "v1.1.5"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode 101006
+        versionName "1.1.6"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -28,11 +28,14 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1"
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    api 'com.github.KKBOX-XDDD:KKBOXOpenApi-Core:0.0.1'
-    api 'com.github.showang:Respect:0.2.6'
+    api "com.github.KKBOX-XDDD:KKBOXOpenApi-Core:0.0.1"
+    api 'com.github.showang:Respect:0.2.7'
+    api 'com.squareup.okhttp3:okhttp:3.12.1'
     implementation 'com.google.code.gson:gson:2.8.5'
 
     testImplementation 'junit:junit:4.12'

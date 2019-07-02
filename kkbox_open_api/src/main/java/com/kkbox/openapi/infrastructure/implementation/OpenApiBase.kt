@@ -42,7 +42,7 @@ abstract class OpenApiBase<ResultType> : RespectApi<ResultType>() {
 
     override val body: ByteArray get() = ByteArray(0)
 
-    open fun startRequest(failCallback: (Error) -> Unit = {}, successCallback: (ResultType) -> Unit) {
+    open fun startRequest(failCallback: (Throwable) -> Unit = {}, successCallback: (ResultType) -> Unit) {
         CoroutineScope(IO).launch {
             if (accessToken == null) {
                 try {

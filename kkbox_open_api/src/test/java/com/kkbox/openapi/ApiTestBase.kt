@@ -33,7 +33,7 @@ open class ApiTestBase {
         }
     }
 
-    protected fun onApiError(e: Error?, message: String) {
+    protected fun onApiError(e: Throwable?, message: String) {
         throw AssertionError("$message: $e")
     }
 }

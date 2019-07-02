@@ -10,7 +10,7 @@ class TracksApiTest : ApiTestBase() {
 
     @Test
     fun testRequest_success() {
-        System.out.println("\n${this.javaClass.simpleName} testRequest_success")
+        println("\n${this.javaClass.simpleName} testRequest_success")
         runBlocking {
             TracksApi("Ot9b9neLPHGat4LYK-")
                     .start(this, {
@@ -20,6 +20,8 @@ class TracksApiTest : ApiTestBase() {
                         }
                         throw AssertionError("testRequest_success fail")
                     }) {
+                        log.print("id: ${it.tracks.first().id}")
+                        log.print("web side: ${it.tracks.first().webUrl}")
                         log.print("item count: ${it.tracks.size}")
                         log.print("offset: ${it.paging.offset}")
                         assert(it.tracks.isNotEmpty()) {
@@ -37,7 +39,7 @@ class TracksApiTest : ApiTestBase() {
 
     @Test
     fun testRequest_pagingSuccess() {
-        System.out.println("\n${this.javaClass.simpleName} testRequest_pagingSuccess")
+        println("\n${this.javaClass.simpleName} testRequest_pagingSuccess")
         runBlocking {
             TracksApi("Ot9b9neLPHGat4LYK-").offset(100)
                     .start(this, {
