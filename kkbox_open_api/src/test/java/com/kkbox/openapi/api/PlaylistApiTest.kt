@@ -9,7 +9,7 @@ class PlaylistApiTest : ApiTestBase() {
 
     @Test
     fun testRequest_success() {
-        System.out.println("\n${this.javaClass.simpleName} testRequest_success")
+        println("\n${this.javaClass.simpleName} testRequest_success")
         runBlocking {
             PlaylistApi("4nUZM-TY2aVxZ2xaA-")
                     .start(this, {

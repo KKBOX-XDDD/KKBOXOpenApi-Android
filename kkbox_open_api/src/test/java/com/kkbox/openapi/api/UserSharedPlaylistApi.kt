@@ -2,7 +2,7 @@ package com.kkbox.openapi.api
 
 import com.kkbox.openapi.ApiTestBase
 import kotlinx.coroutines.runBlocking
-import me.showang.respect.core.RequestError
+import me.showang.respect.core.error.RequestError
 import me.showang.respect.start
 import org.junit.Test
 

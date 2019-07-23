@@ -10,8 +10,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 101008
-        versionName "1.1.8"
+        versionCode 102000
+        versionName "1.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
@@ -34,7 +34,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     api "com.github.KKBOX-XDDD:KKBOXOpenApi-Core:0.0.1"
-    api 'com.github.showang:Respect:0.2.8'
+    api 'com.github.showang:Respect:0.3.0'
     api 'com.squareup.okhttp3:okhttp:3.12.1'
     implementation 'com.google.code.gson:gson:2.8.5'
 

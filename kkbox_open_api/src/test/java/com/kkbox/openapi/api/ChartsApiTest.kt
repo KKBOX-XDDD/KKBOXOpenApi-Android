@@ -9,7 +9,7 @@ class ChartsApiTest : ApiTestBase() {
 
     @Test
     fun testRequest_success() {
-        System.out.println("\n${this.javaClass.simpleName} testRequest_success")
+        println("\n${this.javaClass.simpleName} testRequest_success")
         runBlocking {
             ChartsApi().start(this, {
                 throw AssertionError("testRequest_success fail")

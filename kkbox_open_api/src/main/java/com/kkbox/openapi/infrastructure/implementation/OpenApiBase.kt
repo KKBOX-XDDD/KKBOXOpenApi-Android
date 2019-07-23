@@ -13,6 +13,7 @@ import me.showang.respect.RespectApi
 import me.showang.respect.core.ContentType
 import me.showang.respect.start
 import me.showang.respect.suspend
+import java.lang.IllegalStateException
 
 abstract class OpenApiBase<ResultType> : RespectApi<ResultType>() {
 
@@ -49,7 +50,7 @@ abstract class OpenApiBase<ResultType> : RespectApi<ResultType>() {
                     accessToken = KKAuthApi(KKBOXOpenApi.clientId, KKBOXOpenApi.clientSecret).suspend().accessToken
                 } catch (e: Throwable) {
                     withContext(Main) {
-                        failCallback(Error("Fetch token error."))
+                        failCallback(IllegalStateException("Authorization problem"))
                     }
                 }
             }

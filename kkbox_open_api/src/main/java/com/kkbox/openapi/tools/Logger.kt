@@ -72,30 +72,29 @@ class Logger {
         }
 
         override fun print(message: String) {
-
             i("System", message)
         }
     }
 
     class UnitTestLogger : LoggerSpec {
         override fun e(tag: String, message: String) {
-            System.out.println("[ERROR] $tag: $message")
+            println("[ERROR] $tag: $message")
         }
 
         override fun w(tag: String, message: String) {
-            System.out.println("[WARNING] $tag: $message")
+            println("[WARNING] $tag: $message")
         }
 
         override fun d(tag: String, message: String) {
-            System.out.println("[DEBUG] $tag: $message")
+            println("[DEBUG] $tag: $message")
         }
 
         override fun i(tag: String, message: String) {
-            System.out.println("[INFO] $tag: $message")
+            println("[INFO] $tag: $message")
         }
 
         override fun print(message: String) {
-            System.out.println(message)
+            println(message)
         }
 
     }
