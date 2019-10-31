@@ -11,6 +11,11 @@ import com.kkbox.openapi.model.ImageInfo
 import com.kkbox.openapi.model.Paging
 import me.showang.respect.core.HttpMethod
 
+/**
+ * Fetches featured playlist categories.
+ *
+ * See https://docs-zhtw.kkbox.codes/reference#featured-playlist-categories
+ */
 class FeaturedCategoriesApi : OpenApiBase<FeaturedCategoriesApi.ApiResult>() {
 
     override fun parse(bytes: ByteArray): ApiResult {

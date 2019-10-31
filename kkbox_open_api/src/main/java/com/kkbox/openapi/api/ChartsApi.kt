@@ -10,7 +10,12 @@ import com.kkbox.openapi.model.Paging
 import com.kkbox.openapi.model.PlaylistInfo
 import me.showang.respect.core.HttpMethod
 
-class ChartsApi:OpenApiBase<ChartsApi.ApiResult>() {
+/**
+ * Fetches charts.
+ *
+ * See https://docs-zhtw.kkbox.codes/reference#charts
+ */
+class ChartsApi : OpenApiBase<ChartsApi.ApiResult>() {
 
     override fun parse(bytes: ByteArray): ApiResult {
         val json = Gson().fromJson(String(bytes), RootEntity::class.java)
@@ -30,10 +35,9 @@ class ChartsApi:OpenApiBase<ChartsApi.ApiResult>() {
             val paging: Paging
     )
 
-    private data class RootEntity (
-            @SerializedName("data") val data:List<PlaylistInfoEntity>,
+    private data class RootEntity(
+            @SerializedName("data") val data: List<PlaylistInfoEntity>,
             @SerializedName("paging") val paging: PagingEntity,
             @SerializedName("summary") val summary: SummaryEntity
     )
-
 }

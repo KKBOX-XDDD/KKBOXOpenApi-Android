@@ -12,6 +12,9 @@ import com.kkbox.openapi.model.PlaylistInfo
 import java.io.ByteArrayInputStream
 import java.io.InputStreamReader
 
+/**
+ * Fetches playlist shared by a user.
+ */
 class UserSharedPlaylistApi(userId: String, private val offset: Int? = 0) : OpenApiBase<UserSharedPlaylistApi.ApiResult>() {
     override fun parse(bytes: ByteArray): ApiResult {
         val jsonEntity: RootEntity = Gson().fromJson(JsonReader(InputStreamReader(ByteArrayInputStream(bytes))), RootEntity::class.java)

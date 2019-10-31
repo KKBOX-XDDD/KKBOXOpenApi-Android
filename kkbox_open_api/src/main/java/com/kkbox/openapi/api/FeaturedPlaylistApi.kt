@@ -10,6 +10,11 @@ import com.kkbox.openapi.model.Paging
 import com.kkbox.openapi.model.PlaylistInfo
 import me.showang.respect.core.HttpMethod
 
+/**
+ * Fetches featured playlists.
+ *
+ * See https://docs-zhtw.kkbox.codes/reference#featured-playlists
+ */
 class FeaturedPlaylistApi : OpenApiBase<FeaturedPlaylistApi.ApiResult>() {
 
     private var offset: String? = null

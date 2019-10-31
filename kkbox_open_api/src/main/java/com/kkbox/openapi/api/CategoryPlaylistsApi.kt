@@ -10,6 +10,11 @@ import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
 import com.kkbox.openapi.model.Paging
 import com.kkbox.openapi.model.PlaylistInfo
 
+/**
+ * Fetches playlists under a category.
+ *
+ * See https://docs-zhtw.kkbox.codes/reference#featured-playlist-categories_category_id_playlists
+ */
 class CategoryPlaylistsApi(private val categoryId: String) : OpenApiBase<CategoryPlaylistsApi.ApiResult>() {
 
     private var offset: Int? = null
@@ -23,7 +28,8 @@ class CategoryPlaylistsApi(private val categoryId: String) : OpenApiBase<Categor
         get() = "$baseUrl/featured-playlist-categories/$categoryId/playlists"
     override val httpMethod: HttpMethod
         get() = HttpMethod.GET
-    override val urlQueries: Map<String, String>         get() = super.urlQueries.toMutableMap().apply {
+    override val urlQueries: Map<String, String>
+        get() = super.urlQueries.toMutableMap().apply {
             if (offset != null) this["offset"] = offset!!.toString()
         }
 

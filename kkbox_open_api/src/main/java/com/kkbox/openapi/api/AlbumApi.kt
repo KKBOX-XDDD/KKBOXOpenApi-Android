@@ -10,22 +10,18 @@ import me.showang.respect.core.HttpMethod
  *
  * See https://docs-zhtw.kkbox.codes/v1.1/reference#albums_album_id
  */
-class AlbumApi(private val albumId: String, private val territory: Territory = Territory.TW) :
+class AlbumApi(private val albumId: String) :
         OpenApiBase<AlbumEntity>() {
 
-  override val url: String
-    get() = "$baseUrl/albums/$albumId"
-  override val httpMethod: HttpMethod
-    get() = HttpMethod.GET
-  override val urlQueries: Map<String, String>
-    get() = super.urlQueries.toMutableMap().apply {
-      this["territory"] = territoryToString(territory)
-    }
+    override val url: String
+        get() = "$baseUrl/albums/$albumId"
+    override val httpMethod: HttpMethod
+        get() = HttpMethod.GET
 
-  override fun parse(bytes: ByteArray): AlbumEntity {
-    val gson = Gson()
-    val json = String(bytes)
-    val album = gson.fromJson(json, AlbumEntity::class.java)
-    return album
-  }
+    override fun parse(bytes: ByteArray): AlbumEntity {
+        val gson = Gson()
+        val json = String(bytes)
+        val album = gson.fromJson(json, AlbumEntity::class.java)
+        return album
+    }
 }

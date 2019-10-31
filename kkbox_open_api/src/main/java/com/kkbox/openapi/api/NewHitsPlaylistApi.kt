@@ -10,6 +10,11 @@ import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
 import com.kkbox.openapi.model.Paging
 import com.kkbox.openapi.model.PlaylistInfo
 
+/**
+ * Fetches new hist playlists.
+ *
+ * See https://docs-zhtw.kkbox.codes/reference#new-hits-playlists
+ */
 class NewHitsPlaylistApi : OpenApiBase<NewHitsPlaylistApi.ApiResult>() {
 
     private var offset: String? = null
@@ -37,7 +42,8 @@ class NewHitsPlaylistApi : OpenApiBase<NewHitsPlaylistApi.ApiResult>() {
         get() = "$baseUrl/new-hits-playlists"
     override val httpMethod: HttpMethod
         get() = HttpMethod.GET
-    override val urlQueries: Map<String, String>         get() = super.urlQueries.toMutableMap().apply {
+    override val urlQueries: Map<String, String>
+        get() = super.urlQueries.toMutableMap().apply {
             if (offset != null) this["offset"] = offset!!
             if (limit != null) this["limit"] = limit.toString()
         }

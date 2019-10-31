@@ -11,52 +11,57 @@ import com.kkbox.openapi.model.Territory
 import com.kkbox.openapi.model.Track
 import me.showang.respect.core.HttpMethod
 
+/**
+ * Fetches tracks in a playlist.
+ *
+ * See https://docs-zhtw.kkbox.codes/reference#shared-playlists_playlist_id_tracks
+ */
 class PlaylistTracksApi(private val playlistId: String, private var offset: Int? = null) :
         OpenApiBase<PlaylistTracksApi.ApiResult>() {
 
-  override val httpMethod = HttpMethod.GET
-  override val url: String by lazy { "${super.baseUrl}/shared-playlists/$playlistId/tracks" }
-  override val urlQueries: Map<String, String> by lazy {
-    super.urlQueries.toMutableMap().apply {
-      offset?.let { set("offset", it.toString()) }
+    override val httpMethod = HttpMethod.GET
+    override val url: String by lazy { "${super.baseUrl}/shared-playlists/$playlistId/tracks" }
+    override val urlQueries: Map<String, String> by lazy {
+        super.urlQueries.toMutableMap().apply {
+            offset?.let { set("offset", it.toString()) }
+        }
     }
-  }
 
-  override fun parse(bytes: ByteArray): ApiResult {
-    val jsonString = String(bytes)
-    val rootEntity: RootEntity = Gson().fromJson(jsonString, RootEntity::class.java)
-    return ApiResult(
-            rootEntity.data.map {
-              Track(
-                      it.id,
-                      it.name,
-                      it.duration,
-                      it.track_number,
-                      it.explicitness,
-                      it.availableTerritories.map { Territory.valueOf(it) },
-                      it.url,
-                      it.album?.let { album -> AlbumEntity.parse(album) }
+    override fun parse(bytes: ByteArray): ApiResult {
+        val jsonString = String(bytes)
+        val rootEntity: RootEntity = Gson().fromJson(jsonString, RootEntity::class.java)
+        return ApiResult(
+                rootEntity.data.map {
+                    Track(
+                            it.id,
+                            it.name,
+                            it.duration,
+                            it.track_number,
+                            it.explicitness,
+                            it.availableTerritories.map { Territory.valueOf(it) },
+                            it.url,
+                            it.album?.let { album -> AlbumEntity.parse(album) }
 
-              )
-            },
-            PagingEntity.parse(rootEntity.data.size, rootEntity.paging, rootEntity.summary)
+                    )
+                },
+                PagingEntity.parse(rootEntity.data.size, rootEntity.paging, rootEntity.summary)
+        )
+    }
+
+    fun offset(index: Int): PlaylistTracksApi {
+        this.offset = index
+        return this
+    }
+
+    class ApiResult(
+            val tracks: List<Track>,
+            val paging: Paging
     )
-  }
 
-  fun offset(index: Int): PlaylistTracksApi {
-    this.offset = index
-    return this
-  }
-
-  class ApiResult(
-          val tracks: List<Track>,
-          val paging: Paging
-  )
-
-  private data class RootEntity(
-          @SerializedName("data") val data: List<TrackEntity>,
-          @SerializedName("paging") val paging: PagingEntity,
-          @SerializedName("summary") val summary: SummaryEntity
-  )
+    private data class RootEntity(
+            @SerializedName("data") val data: List<TrackEntity>,
+            @SerializedName("paging") val paging: PagingEntity,
+            @SerializedName("summary") val summary: SummaryEntity
+    )
 
 }
