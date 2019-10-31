@@ -5,6 +5,9 @@ import com.kkbox.openapi.api.AlbumEntity
 import com.kkbox.openapi.api.parseTerritory
 import com.kkbox.openapi.model.Track
 
+/**
+ * An container for a list of tracks.
+ */
 data class RootTrackEntity(
         @SerializedName("tracks") val tracks: TracksEntity
 )
@@ -29,7 +32,7 @@ data class TrackEntity(
         @SerializedName("track_number") val track_number: Int,
         @SerializedName("explicitness") val explicitness: Boolean,
         @SerializedName("available_territories") val availableTerritories: List<String>,
-        @SerializedName("album") val album: AlbumEntity
+        @SerializedName("album") val album: AlbumEntity?
 ) {
 
   companion object {
@@ -43,7 +46,8 @@ data class TrackEntity(
                 it.explicitness,
                 parseTerritory(it.availableTerritories),
                 it.url,
-                it.album.let { album -> AlbumEntity.parse(album) }
+                it.album?.let { album -> AlbumEntity.parse(album) }
+
         )
       }
     }

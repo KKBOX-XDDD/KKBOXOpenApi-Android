@@ -11,11 +11,16 @@ import com.kkbox.openapi.model.Territory
 import com.kkbox.openapi.model.Track
 import me.showang.respect.core.HttpMethod
 
-class PlaylistTracksApi(private val playlistId: String, private var offset: Int? = null) :
-        OpenApiBase<PlaylistTracksApi.ApiResult>() {
+/**
+ * Fetches tracks in an album.
+ *
+ * See https://docs-zhtw.kkbox.codes/reference#albums_album_id_tracks
+ */
+class AlbumTracksApi(private val albumId: String, private var offset: Int? = null) :
+        OpenApiBase<AlbumTracksApi.ApiResult>() {
 
   override val httpMethod = HttpMethod.GET
-  override val url: String by lazy { "${super.baseUrl}/shared-playlists/$playlistId/tracks" }
+  override val url: String by lazy { "${super.baseUrl}/albums/$albumId/tracks" }
   override val urlQueries: Map<String, String> by lazy {
     super.urlQueries.toMutableMap().apply {
       offset?.let { set("offset", it.toString()) }
@@ -36,14 +41,13 @@ class PlaylistTracksApi(private val playlistId: String, private var offset: Int?
                       it.availableTerritories.map { Territory.valueOf(it) },
                       it.url,
                       it.album?.let { album -> AlbumEntity.parse(album) }
-
               )
             },
             PagingEntity.parse(rootEntity.data.size, rootEntity.paging, rootEntity.summary)
     )
   }
 
-  fun offset(index: Int): PlaylistTracksApi {
+  fun offset(index: Int): AlbumTracksApi {
     this.offset = index
     return this
   }
