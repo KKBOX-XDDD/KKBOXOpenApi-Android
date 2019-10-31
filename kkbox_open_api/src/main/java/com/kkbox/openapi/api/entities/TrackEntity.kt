@@ -3,7 +3,6 @@ package com.kkbox.openapi.api.entities
 import com.google.gson.annotations.SerializedName
 import com.kkbox.openapi.api.AlbumEntity
 import com.kkbox.openapi.api.parseTerritory
-import com.kkbox.openapi.model.Territory
 import com.kkbox.openapi.model.Track
 
 data class RootTrackEntity(
@@ -11,7 +10,7 @@ data class RootTrackEntity(
 )
 
 /**
- * Represents tracks.
+ * Represents lists of tracks.
  */
 data class TracksEntity(
         @SerializedName("data") val data: List<TrackEntity>,
@@ -44,7 +43,7 @@ data class TrackEntity(
                 it.explicitness,
                 parseTerritory(it.availableTerritories),
                 it.url,
-                AlbumEntity.parse(it.album)
+                it.album.let { album -> AlbumEntity.parse(album) }
         )
       }
     }

@@ -1,32 +1,31 @@
-package com.kkbox.openapi.api
+import com.google.gson.Gson
+import com.kkbox.openapi.api.AlbumEntity
+import com.kkbox.openapi.api.territoryToString
+import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
+import com.kkbox.openapi.model.Territory
+import me.showang.respect.core.HttpMethod
 
-import com.google.gson.annotations.SerializedName
-import com.kkbox.openapi.api.entities.ImageEntity
-import com.kkbox.openapi.api.entities.PersonEntity
-import com.kkbox.openapi.model.AlbumInfo
+/**
+ * Fetches metadata of an album.
+ *
+ * See https://docs-zhtw.kkbox.codes/v1.1/reference#albums_album_id
+ */
+class AlbumApi(private val albumId: String, private val territory: Territory = Territory.TW) :
+        OpenApiBase<AlbumEntity>() {
 
-data class AlbumEntity(
-        @SerializedName("id") val id: String,
-        @SerializedName("name") val name: String,
-        @SerializedName("url") val url: String,
-        @SerializedName("explicitness") val explicitness: Boolean,
-        @SerializedName("available_territories") val availableTerritories: List<String>,
-        @SerializedName("release_date") val release_date: String?,
-        @SerializedName("images") val images: List<ImageEntity>,
-        @SerializedName("artist") val artist: PersonEntity
-) {
-  companion object {
-    fun parse(json: AlbumEntity): AlbumInfo {
-      return AlbumInfo(
-              json.id,
-              json.name,
-              json.url,
-              json.explicitness,
-              parseTerritory(json.availableTerritories),
-              json.release_date,
-              ImageEntity.parse(json.images),
-              PersonEntity.parse(json.artist)
-      )
+  override val url: String
+    get() = "$baseUrl/albums/$albumId"
+  override val httpMethod: HttpMethod
+    get() = HttpMethod.GET
+  override val urlQueries: Map<String, String>
+    get() = super.urlQueries.toMutableMap().apply {
+      this["territory"] = territoryToString(territory)
     }
+
+  override fun parse(bytes: ByteArray): AlbumEntity {
+    val gson = Gson()
+    val json = String(bytes)
+    val album = gson.fromJson(json, AlbumEntity::class.java)
+    return album
   }
 }
