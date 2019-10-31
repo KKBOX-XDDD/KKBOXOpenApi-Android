@@ -31,7 +31,6 @@ class KKAuthApi(
         return Gson().fromJson(bytes.toString(Charset.defaultCharset()), AuthResult::class.java)
     }
 
-
     data class AuthResult(
             @SerializedName("access_token") val accessToken: String,
             @SerializedName("expires_in") val expire: Long
