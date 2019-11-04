@@ -28,7 +28,7 @@ stages:
 lintDebug:
   stage: build
   script:
-    - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
+    - ./gradlew -Pci --console=plain :kkbox_open_api:lintDebug -PbuildDir=lint
   tags:
     - docker
 
