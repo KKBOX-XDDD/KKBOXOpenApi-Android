@@ -1,8 +1,8 @@
+package com.kkbox.openapi.api
+
 import com.google.gson.Gson
-import com.kkbox.openapi.api.AlbumEntity
-import com.kkbox.openapi.api.territoryToString
+import com.kkbox.openapi.api.entities.AlbumEntity
 import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
-import com.kkbox.openapi.model.Territory
 import me.showang.respect.core.HttpMethod
 
 /**
@@ -21,7 +21,6 @@ class AlbumApi(private val albumId: String) :
     override fun parse(bytes: ByteArray): AlbumEntity {
         val gson = Gson()
         val json = String(bytes)
-        val album = gson.fromJson(json, AlbumEntity::class.java)
-        return album
+        return gson.fromJson(json, AlbumEntity::class.java)
     }
 }

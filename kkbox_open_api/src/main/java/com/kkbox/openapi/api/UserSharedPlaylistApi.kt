@@ -23,7 +23,6 @@ class UserSharedPlaylistApi(userId: String, private val offset: Int? = 0) : Open
                 PagingEntity.parse(jsonEntity.data.size, jsonEntity.paging)
         )
     }
-
     override val httpMethod = HttpMethod.GET
     override val url: String by lazy { "$baseUrl/users/$userId/shared-playlists" }
     override val urlQueries: Map<String, String> by lazy {

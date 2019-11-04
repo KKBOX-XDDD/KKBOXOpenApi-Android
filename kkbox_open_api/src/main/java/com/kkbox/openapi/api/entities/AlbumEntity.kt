@@ -1,8 +1,7 @@
-package com.kkbox.openapi.api
+package com.kkbox.openapi.api.entities
 
 import com.google.gson.annotations.SerializedName
-import com.kkbox.openapi.api.entities.ImageEntity
-import com.kkbox.openapi.api.entities.PersonEntity
+import com.kkbox.openapi.api.parseTerritory
 import com.kkbox.openapi.model.AlbumInfo
 
 /**

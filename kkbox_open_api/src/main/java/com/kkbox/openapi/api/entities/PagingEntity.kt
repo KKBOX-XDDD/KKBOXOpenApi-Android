@@ -12,13 +12,13 @@ data class PagingEntity(
         @SerializedName("previous") val previous: String?,
         @SerializedName("next") val next: String?
 ) {
-  companion object {
-    fun parse(currentItemCount: Int, paging: PagingEntity, summary: SummaryEntity? = null): Paging {
-      val nextOffset = currentItemCount + paging.offset
-      return Paging(
-              paging.next != null,
-              nextOffset
-      )
+    companion object {
+        fun parse(currentItemCount: Int, paging: PagingEntity, summary: SummaryEntity? = null): Paging {
+            val nextOffset = currentItemCount + paging.offset
+            return Paging(
+                    paging.next != null,
+                    nextOffset
+            )
+        }
     }
-  }
 }

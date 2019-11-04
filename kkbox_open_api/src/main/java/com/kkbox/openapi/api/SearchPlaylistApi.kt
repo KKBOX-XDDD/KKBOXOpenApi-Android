@@ -12,7 +12,6 @@ import com.kkbox.openapi.model.PlaylistInfo
 
 class SearchPlaylistApi(private val keyWords: String?) : OpenApiBase<SearchPlaylistApi.ApiResult>() {
 
-
     override fun parse(bytes: ByteArray): ApiResult {
         val json = Gson().fromJson(String(bytes), RootEntity::class.java)
         return ApiResult(
@@ -34,7 +33,8 @@ class SearchPlaylistApi(private val keyWords: String?) : OpenApiBase<SearchPlayl
         get() = "$baseUrl/search"
     override val httpMethod: HttpMethod
         get() = HttpMethod.GET
-    override val urlQueries: Map<String, String>         get() = super.urlQueries.toMutableMap().apply {
+    override val urlQueries: Map<String, String>
+        get() = super.urlQueries.toMutableMap().apply {
             if (keyWords != null) this["q"] = keyWords
             if (offset != null) this["offset"] = offset.toString()
             this["type"] = "playlist"

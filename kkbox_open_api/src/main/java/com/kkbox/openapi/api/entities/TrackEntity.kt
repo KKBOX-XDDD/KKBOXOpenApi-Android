@@ -1,7 +1,6 @@
 package com.kkbox.openapi.api.entities
 
 import com.google.gson.annotations.SerializedName
-import com.kkbox.openapi.api.AlbumEntity
 import com.kkbox.openapi.api.parseTerritory
 import com.kkbox.openapi.model.Track
 
@@ -35,21 +34,21 @@ data class TrackEntity(
         @SerializedName("album") val album: AlbumEntity?
 ) {
 
-  companion object {
-    fun parse(json: List<TrackEntity>): List<Track> {
-      return json.map {
-        Track(
-                it.id,
-                it.name,
-                it.duration,
-                it.track_number,
-                it.explicitness,
-                parseTerritory(it.availableTerritories),
-                it.url,
-                it.album?.let { album -> AlbumEntity.parse(album) }
+    companion object {
+        fun parse(json: List<TrackEntity>): List<Track> {
+            return json.map {
+                Track(
+                        it.id,
+                        it.name,
+                        it.duration,
+                        it.track_number,
+                        it.explicitness,
+                        parseTerritory(it.availableTerritories),
+                        it.url,
+                        it.album?.let { album -> AlbumEntity.parse(album) }
 
-        )
-      }
+                )
+            }
+        }
     }
-  }
 }

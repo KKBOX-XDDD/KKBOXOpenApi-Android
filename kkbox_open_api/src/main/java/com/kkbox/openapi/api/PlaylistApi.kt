@@ -1,11 +1,14 @@
 package com.kkbox.openapi.api
 
 import com.google.gson.Gson
-import com.google.gson.annotations.SerializedName
-import com.kkbox.openapi.api.entities.*
-import me.showang.respect.core.HttpMethod
+import com.kkbox.openapi.api.entities.PagingEntity
+import com.kkbox.openapi.api.entities.PlaylistInfoEntity
+import com.kkbox.openapi.api.entities.RootTrackEntity
+import com.kkbox.openapi.api.entities.TrackEntity
 import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
-import com.kkbox.openapi.model.*
+import com.kkbox.openapi.model.Paging
+import com.kkbox.openapi.model.Playlist
+import me.showang.respect.core.HttpMethod
 
 /**
  * Fetches playlists.

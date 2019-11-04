@@ -3,7 +3,6 @@ package com.kkbox.openapi.api
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.kkbox.openapi.infrastructure.implementation.OpenApiBase
-import me.showang.respect.RespectApi
 import me.showang.respect.core.ContentType
 import me.showang.respect.core.HttpMethod
 import java.nio.charset.Charset
