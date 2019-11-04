@@ -29,6 +29,8 @@ lintDebug:
   stage: build
   script:
     - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
+  tags:
+    - docker
 
 assembleDebug:
   stage: build
