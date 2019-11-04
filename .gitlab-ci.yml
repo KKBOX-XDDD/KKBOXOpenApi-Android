@@ -36,12 +36,11 @@ assembleDebug:
   stage: build
   script:
     - ./gradlew assembleDebug
-  artifacts:
-    paths:
-    - app/build/outputs/
+  # artifacts:
+  #   paths:
+  #   - app/build/outputs/
   tags:
     - docker
-
 
 # debugTests:
 #   stage: test
