@@ -37,8 +37,13 @@ assembleDebug:
   artifacts:
     paths:
     - app/build/outputs/
+  tags:
+    - docker
+
 
 # debugTests:
 #   stage: test
 #   script:
 #     - ./gradlew -Pci --console=plain :app:testDebug
+#   tags:
+#     - docker
