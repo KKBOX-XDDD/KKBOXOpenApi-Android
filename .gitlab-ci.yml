@@ -3,7 +3,7 @@ image: openjdk:8-jdk
 variables:
   ANDROID_COMPILE_SDK: "28"
   ANDROID_BUILD_TOOLS: "28.0.2"
-  ANDROID_SDK_TOOLS:   "4333796"
+  ANDROID_SDK_TOOLS: "4333796"
 
 before_script:
   - apt-get --quiet update --yes
@@ -24,6 +24,7 @@ before_script:
 stages:
   - build
   # - test
+  - deploy
 
 lintDebug:
   stage: build
@@ -36,15 +37,23 @@ assembleDebug:
   stage: build
   script:
     - ./gradlew assembleDebug
-  # artifacts:
-  #   paths:
-  #   - app/build/outputs/
   tags:
     - docker
 
-# debugTests:
-#   stage: test
-#   script:
-#     - ./gradlew -Pci --console=plain :app:testDebug
-#   tags:
-#     - docker
+pages:
+  stage: deploy
+  script:
+    - ./gradlew dokka
+  stage: deploy
+  script:
+    - mv  kkbox_open_api/build/docs public/
+    # - for line in $(find ./public -name '*.html'); do sed -i 's/..\/style.css/style.css/g' ${line##* .}; done
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
+  tags:
+    - docker
+
+
