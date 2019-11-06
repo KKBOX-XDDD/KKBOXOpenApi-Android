@@ -42,10 +42,9 @@ assembleDebug:
 
 pages:
   stage: deploy
-  script:
-    - ./gradlew dokka
   stage: deploy
   script:
+    - ./gradlew dokka
     - mv  kkbox_open_api/build/docs public/
     # - for line in $(find ./public -name '*.html'); do sed -i 's/..\/style.css/style.css/g' ${line##* .}; done
   artifacts:
