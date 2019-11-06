@@ -30,14 +30,21 @@ class ChartsApi : OpenApiBase<ChartsApi.ApiResult>() {
     override val httpMethod: HttpMethod
         get() = HttpMethod.GET
 
-    class ApiResult(
-            val playlistList: List<PlaylistInfo>,
-            val paging: Paging
-    )
-
     private data class RootEntity(
             @SerializedName("data") val data: List<PlaylistInfoEntity>,
             @SerializedName("paging") val paging: PagingEntity,
             @SerializedName("summary") val summary: SummaryEntity
     )
+
+    /**
+     * The result of ChartsApi.
+     *
+     * @property playlistList a list of playlist.
+     * @property paging the paging information.
+     */
+    class ApiResult(
+            val playlistList: List<PlaylistInfo>,
+            val paging: Paging
+    )
+
 }

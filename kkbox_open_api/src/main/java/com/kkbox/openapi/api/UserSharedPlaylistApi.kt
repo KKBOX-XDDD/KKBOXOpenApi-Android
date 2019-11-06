@@ -14,6 +14,8 @@ import java.io.InputStreamReader
 
 /**
  * Fetches playlist shared by a user.
+ *
+ * @param userId the ID of the user.
  */
 class UserSharedPlaylistApi(userId: String, private val offset: Int? = 0) : OpenApiBase<UserSharedPlaylistApi.ApiResult>() {
     override fun parse(bytes: ByteArray): ApiResult {
@@ -23,6 +25,7 @@ class UserSharedPlaylistApi(userId: String, private val offset: Int? = 0) : Open
                 PagingEntity.parse(jsonEntity.data.size, jsonEntity.paging)
         )
     }
+
     override val httpMethod = HttpMethod.GET
     override val url: String by lazy { "$baseUrl/users/$userId/shared-playlists" }
     override val urlQueries: Map<String, String> by lazy {
@@ -36,6 +39,12 @@ class UserSharedPlaylistApi(userId: String, private val offset: Int? = 0) : Open
             @SerializedName("paging") val paging: PagingEntity
     )
 
+    /**
+     * The result of UserSharedPlaylistApi.
+     *
+     * @property playlistInfoList the list of playlists.
+     * @property paging the paging information.
+     */
     class ApiResult(
             val playlistInfoList: List<PlaylistInfo>,
             val paging: Paging

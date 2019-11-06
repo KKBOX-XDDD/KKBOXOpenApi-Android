@@ -8,20 +8,20 @@ import org.junit.Test
 
 class UserSharedPlaylistApiTest : ApiTestBase() {
 
-  @Test
-  fun testRequest_success() {
-    runBlocking {
-      UserSharedPlaylistApi("GlKSG5huISe0wwp73O").start(this, { e ->
-        if (e is RequestError) {
-          print("error code: ${e.responseCode}, ${String(e.bodyBytes ?: byteArrayOf())}")
+    @Test
+    fun testRequest_success() {
+        runBlocking {
+            UserSharedPlaylistApi("GlKSG5huISe0wwp73O").start(this, { e ->
+                if (e is RequestError) {
+                    print("error code: ${e.responseCode}, ${String(e.bodyBytes ?: byteArrayOf())}")
+                }
+                onApiError(e, "testRequest_success fail.")
+            }) {
+                assert(it.paging.hasNextPage)
+                assert(it.paging.offset == 50)
+                assert(it.playlistInfoList.size == 50)
+            }
         }
-        onApiError(e, "testRequest_success fail.")
-      }) {
-        assert(it.paging.hasNextPage)
-        assert(it.paging.offset == 50)
-        assert(it.playlistInfoList.size == 50)
-      }
     }
-  }
 
 }

@@ -13,9 +13,12 @@ import com.kkbox.openapi.model.Track
 import me.showang.respect.core.HttpMethod
 
 /**
- * Fetches tracks in an album.
+ * Fetches a list of tracks in an album.
  *
  * See https://docs-zhtw.kkbox.codes/reference#albums_album_id_tracks
+ *
+ * @property albumId the ID of the desired album.
+ * @property offset the offset of the list of the tracks.
  */
 class AlbumTracksApi(private val albumId: String, private var offset: Int? = null) :
         OpenApiBase<AlbumTracksApi.ApiResult>() {
@@ -48,6 +51,12 @@ class AlbumTracksApi(private val albumId: String, private var offset: Int? = nul
         )
     }
 
+    /**
+     * Sets the expected offset of the fetched list.
+     *
+     * @param offset the offset.
+     * @return an instance of NewHitsPlaylistApi.
+     */
     fun offset(index: Int): AlbumTracksApi {
         this.offset = index
         return this

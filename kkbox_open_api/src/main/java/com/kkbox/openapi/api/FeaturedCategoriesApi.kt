@@ -40,8 +40,6 @@ class FeaturedCategoriesApi : OpenApiBase<FeaturedCategoriesApi.ApiResult>() {
     override val url: String by lazy { "$baseUrl/featured-playlist-categories" }
     override val httpMethod: HttpMethod = HttpMethod.GET
 
-    class ApiResult(val categoryList: List<CategoryInfo>, val paging: Paging)
-
     private data class RootEntity(
             @SerializedName("data") val data: List<CategoryEntity>,
             @SerializedName("paging") val paging: PagingEntity,
@@ -53,5 +51,13 @@ class FeaturedCategoriesApi : OpenApiBase<FeaturedCategoriesApi.ApiResult>() {
             @SerializedName("title") val title: String,
             @SerializedName("images") val images: List<ImageEntity>
     )
+
+    /**
+     * The result of FeaturedCategoriesApi.
+     *
+     * @property categoryList a list of categories.
+     * @property paging the paging information.
+     */
+    class ApiResult(val categoryList: List<CategoryInfo>, val paging: Paging)
 
 }

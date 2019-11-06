@@ -49,6 +49,12 @@ class PlaylistTracksApi(private val playlistId: String, private var offset: Int?
         )
     }
 
+    /**
+     * Sets the expected offset of the fetched list.
+     *
+     * @param offset the offset.
+     * @return an instance of NewHitsPlaylistApi.
+     */
     fun offset(index: Int): PlaylistTracksApi {
         this.offset = index
         return this

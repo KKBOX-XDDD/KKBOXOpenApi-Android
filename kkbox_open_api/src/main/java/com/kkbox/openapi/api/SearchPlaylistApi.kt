@@ -24,6 +24,12 @@ class SearchPlaylistApi(private val keyWords: String?) : OpenApiBase<SearchPlayl
 
     private var offset: Int? = null
 
+    /**
+     * Sets the expected offset of the fetched list.
+     *
+     * @param offset the offset.
+     * @return an instance of NewHitsPlaylistApi.
+     */
     fun offset(offset: Int): SearchPlaylistApi {
         this.offset = offset
         return this
@@ -40,11 +46,6 @@ class SearchPlaylistApi(private val keyWords: String?) : OpenApiBase<SearchPlayl
             this["type"] = "playlist"
         }
 
-    class ApiResult(
-            val playlistInfoList: List<PlaylistInfo>,
-            val paging: Paging
-    )
-
     private data class RootEntity(
             @SerializedName("playlists") val playlists: PlaylistsEntity
     )
@@ -54,4 +55,17 @@ class SearchPlaylistApi(private val keyWords: String?) : OpenApiBase<SearchPlayl
             @SerializedName("paging") val paging: PagingEntity,
             @SerializedName("summary") val summary: SummaryEntity
     )
+
+    /**
+     * The result of SearchPlaylistApi.
+     *
+     * @property playlistInfoList a list of playlists.
+     * @property paging the paging information.
+     */
+    class ApiResult(
+            val playlistInfoList: List<PlaylistInfo>,
+            val paging: Paging
+    )
+
+
 }

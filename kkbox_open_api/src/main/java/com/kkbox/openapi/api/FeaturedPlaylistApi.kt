@@ -20,12 +20,24 @@ class FeaturedPlaylistApi : OpenApiBase<FeaturedPlaylistApi.ApiResult>() {
     private var offset: String? = null
     private var limit: Int? = null
 
-    fun page(offset: String): FeaturedPlaylistApi {
+    /**
+     * Sets the expected offset of the fetched list.
+     *
+     * @param offset the offset.
+     * @return an instance of FeaturedPlaylistApi.
+     */
+    fun offset(offset: String): FeaturedPlaylistApi {
         this.offset = offset
         return this
     }
 
-    fun item(limit: Int): FeaturedPlaylistApi {
+    /**
+     * Sets the limit of the count of the items of the fetched list.
+     *
+     * @param limit the limit
+     * @return an instance of FeaturedPlaylistApi.
+     */
+    fun limit(limit: Int): FeaturedPlaylistApi {
         this.limit = limit
         return this
     }
@@ -48,17 +60,23 @@ class FeaturedPlaylistApi : OpenApiBase<FeaturedPlaylistApi.ApiResult>() {
             if (limit != null) this["limit"] = limit.toString()
         }
 
-
-    class ApiResult(
-            val playlistList: List<PlaylistInfo>,
-            val paging: Paging
-    )
-
     private data class RootEntity(
             @SerializedName("data") val data: List<PlaylistInfoEntity>,
             @SerializedName("paging") val pagingInfo: PagingEntity,
             @SerializedName("summary") val summary: SummaryEntity
     )
 
+    /**
+     * The result of FeaturedPlaylistApi
+     *
+     * @property playlistList the list of playlists.
+     * @property paging the paging information.
+     */
+    class ApiResult(
+            val playlistList: List<PlaylistInfo>,
+            val paging: Paging
+    )
+
 }
+
 

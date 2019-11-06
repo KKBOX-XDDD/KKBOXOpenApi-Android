@@ -13,7 +13,12 @@ import me.showang.respect.core.HttpMethod
 /**
  * Fetches playlists.
  *
+ * Please note that the API may not contain all of the tracks of the playlist. To fetch
+ * the tracks not contained in the API, you may want to use `PlaylistTracksApi`.
+ *
  * See https://docs-zhtw.kkbox.codes/v1.1/reference#shared-playlists_playlist_id
+ *
+ * @property playlistId the ID of the desired playlist.
  */
 class PlaylistApi(private val playlistId: String) : OpenApiBase<PlaylistApi.ApiResult>() {
 
@@ -43,11 +48,23 @@ class PlaylistApi(private val playlistId: String) : OpenApiBase<PlaylistApi.ApiR
         )
     }
 
+    /**
+     * Sets the expected offset of the fetched list.
+     *
+     * @param offset the offset.
+     * @return an instance of NewHitsPlaylistApi.
+     */
     fun offset(offset: Int): PlaylistApi {
         this.offset = offset
         return this
     }
 
+    /**
+     * The result of PlaylistApi.
+     *
+     * @property playlist the fetched playlist.
+     * @property paging the paging information.
+     */
     class ApiResult(
             val playlist: Playlist,
             val paging: Paging

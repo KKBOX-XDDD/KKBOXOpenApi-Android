@@ -7,7 +7,15 @@ import me.showang.respect.core.ContentType
 import me.showang.respect.core.HttpMethod
 import java.nio.charset.Charset
 
-
+/**
+ * Fetches access tokens for KKBOX's OpenAPI using the client credential flow.
+ *
+ * To start using the API, you need a client ID and a client secret. You can get one
+ * from [KKBOX's developer site](https://developer.kkbox.com).
+ *
+ * @property clientId a valid client ID.
+ * @property clientSecret a valid client secret.
+ */
 class KKAuthApi(
         private val clientId: String,
         private val clientSecret: String

@@ -19,6 +19,12 @@ class CategoryPlaylistsApi(private val categoryId: String) : OpenApiBase<Categor
 
     private var offset: Int? = null
 
+    /**
+     * Sets the expected offset of the fetched list.
+     *
+     * @param offset the offset.
+     * @return an instance of NewHitsPlaylistApi.
+     */
     fun offset(offset: Int): CategoryPlaylistsApi {
         this.offset = offset
         return this
@@ -42,14 +48,21 @@ class CategoryPlaylistsApi(private val categoryId: String) : OpenApiBase<Categor
         )
     }
 
-    class ApiResult(
-            val playlistList: List<PlaylistInfo>,
-            val paging: Paging
-    )
-
     private data class RootEntity(
             @SerializedName("data") val data: List<PlaylistInfoEntity>,
             @SerializedName("paging") val pagingInfo: PagingEntity,
             @SerializedName("summary") val summary: SummaryEntity
     )
+
+    /**
+     * The result of CategoryPlaylistsApi.
+     *
+     * @property playlistList a list of playlists.
+     * @property paging the paging information.
+     */
+    class ApiResult(
+            val playlistList: List<PlaylistInfo>,
+            val paging: Paging
+    )
+
 }
